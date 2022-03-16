@@ -331,11 +331,11 @@ class AdministrationController extends Controller
 
     public function getAdministrasi()
     {
-        $user = Auth::user();
+        // $user = Auth::user();
         // dd($request);
         
         $data = Administration::join('program','data_mahasiswa.program_id','=','program.id')
-        ->select('data_mahasiswa.*','program.nama_program')->where('user_id', $user)->first();
+        ->select('data_mahasiswa.*','program.nama_program')->where('user_id', Auth::user()->id)->first();
         // $data = Administration::all();
 
         return response()->json([
