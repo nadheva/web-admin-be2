@@ -60,6 +60,6 @@ class CreateAdministrationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administration');
+        Schema::dropIfExists('data_mahasiswa');
     }
 }
