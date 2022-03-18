@@ -17,7 +17,6 @@ class CreateDiscussionReplyTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users")->onDelete("cascade")->onUpdate("cascade");
             $table->longtext('isi');
-            $table->string('username');
             $table->foreignId("discussion_id")->constrained("discussion_forum")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });

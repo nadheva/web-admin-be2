@@ -13,7 +13,6 @@ class DiscussionReply extends Model
         'discussion_id',
         'isi',
         'user_id',
-        'username'
     ];
 
     protected $primaryKey = 'id';
