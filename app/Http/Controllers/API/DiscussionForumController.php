@@ -24,14 +24,16 @@ class DiscussionForumController extends Controller
      */
     public function index(Request $request)
     {
-        $diskusi = DiscussionForum::all();
-        $reply = DiscussionReply::all();
-        $reply2 = DiscussionReply2::all();
+        $diskusi = DiscussionForum::join('users','discussion_forum.user_id','=','users.id')
+                    ->select('discussion_forum.*','users.name')->get();
+        $reply = DiscussionReply::join('users','discussion_reply.user_id','=','users.id')
+                    ->select('discussion_reply.*','users.name')->get();
+        $reply2 = DiscussionReply2::join('users','discussion_reply2.user_id','=','users.id')
+                    ->select('discussion_reply2.*','users.name')->get();
 
         $ada1 = NULL;
         $ada = NULL;
         $arr1 = [];
-
         if ($diskusi != NULL) {
             foreach ($diskusi as $diskusis) {
                 foreach ($reply as $replys) {
