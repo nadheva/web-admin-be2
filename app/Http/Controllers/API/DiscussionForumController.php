@@ -226,4 +226,81 @@ class DiscussionForumController extends Controller
             "data" => $data                                
         ]);
     }
+    public function showbyMatkul(Request $request, $id)
+    {
+        $diskusi = DiscussionForum::join('users','discussion_forum.user_id','=','users.id')
+                    ->select('discussion_forum.*','users.name')->where('mata_kuliah_id', $id)->get();
+        $reply = DiscussionReply::join('users','discussion_reply.user_id','=','users.id')
+                    ->select('discussion_reply.*','users.name')->get();
+        $reply2 = DiscussionReply2::join('users','discussion_reply2.user_id','=','users.id')
+                    ->select('discussion_reply2.*','users.name')->get();
+
+        $ada1 = NULL;
+        $ada = NULL;
+        $arr1 = [];
+        if ($diskusi != NULL) {
+            foreach ($diskusi as $diskusis) {
+                foreach ($reply as $replys) {
+                    foreach ($reply2 as $replys2) {
+                        if ($replys2->discussion_reply_id == $replys->id) {
+                            $like3 = DiscussionLike2::where('discussion_reply_id', $replys2->id)->count();
+                            $ada1[] = [
+                                'id' => $replys2->id,
+                                'user_id' => $replys2->user->name,
+                                'isi' => $replys2->isi,
+                                'like' => $like3,
+                                'discussion_reply_id' => $replys2->discussion_reply_id,
+                                'created_at' => $replys2->created_at,
+                            ];                            
+                        }                       
+                        else{
+                            // $ada1 = NULL;
+                        }
+                        // $ada1 = NULL;
+                    }
+                    if ($replys->discussion_id == $diskusis->id) {
+
+                        $like2 = DiscussionLike2::where('discussion_reply_id', $replys->id)->count();
+                        $ada[] = [
+                            'id' => $replys->id,
+                            'user_id' => $replys->user->name,
+                            'isi' => $replys->isi,
+                            'like' => $like2,
+                            'discussion_id' => $replys->discussion_id,
+                            'reply2' => $ada1,
+                            'created_at' => $replys->created_at,
+                        ];
+                        $ada1 = NULL;
+                    }
+                    else{
+                        $ada1 = NULL;
+                    }
+                }
+
+                $like = DiscussionLike::where('discussion_id', $diskusis->id)->count();
+                $arr1[] = [
+                    'id' => $diskusis->id,
+                    'user_id' => $diskusis->user->name,
+                    'mata_kuliah_id' => $diskusis->mata_kuliah_id,
+                    'judul' => $diskusis->judul,
+                    'isi' => $diskusis->isi,
+                    'like' => $like,
+                    'gambar' => $diskusis->gambar,
+                    'reply' => $ada,
+                    'created_at' => $diskusis->created_at,
+                ];
+                $ada = NULL;
+            }
+        } else {
+            $arr1 = [];
+        }
+
+        // dd($arr1);
+        return response()->json([
+            "status" => "success",
+            "data" => $arr1,
+        ], 200);
+        // return ResponseFormatter::success($arr1, "Selamat Datang di Discussion Forum!");
+        // return new DiscussionForumCollection($arr1);
+    }
 }
