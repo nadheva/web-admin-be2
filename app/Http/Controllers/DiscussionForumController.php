@@ -43,7 +43,6 @@ class DiscussionForumController extends Controller
             'judul' => 'required',
             'isi' => 'required',
             'user_id' => 'required',
-            'username' => 'required',
             'mata_kuliah_id' => 'required'
         ]);
         if (isset($request->gambar)) {
@@ -59,7 +58,6 @@ class DiscussionForumController extends Controller
             'judul' => $request->judul,
             'isi' => $request->isi,
             'user_id' => $request->user_id,
-            'username' => $request->username,
             'mata_kuliah_id' => $request->mata_kuliah_id,
             'gambar' => $txt,
         ]);
