@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'email' => 'admin1@gmail.com',
             'password' => bcrypt('kampusgratis2022'),
             'role' => 'admin',
-            'firebaseUID' => 'admin',
+            'firebaseUID' => 'admin1',
         ]);
         User::create([
             'name' => 'dosen',
