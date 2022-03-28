@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Administration;
 use App\Models\User;
-// use App\Models\Program
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,7 +82,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program_id' => $request->program->nama_program,
+            'program_id' => $program->nama_program,
         ]);
 
         return response()->json([
@@ -95,6 +95,7 @@ class AdministrationController extends Controller
 
     function update(Request $request, $id)
     {
+        $program = Program::all();
         $user = Auth::user();
         // dd($request);
         if (isset($request->pakta_integritas)) {
@@ -199,7 +200,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program_id' => $request->program->nama_program,
+            'program_id' => $program->nama_program,
         ]);
 
         User::where('id', $id)->update([
@@ -218,6 +219,7 @@ class AdministrationController extends Controller
     public function updateAdministrasi(Request $request)
     {
         $user = Auth::user();
+        $program = Program::all();
         // dd($request);
         if (isset($request->pakta_integritas)) {
             $extention = $request->pakta_integritas->extension();
@@ -321,7 +323,7 @@ class AdministrationController extends Controller
         $administrasi->pas_foto = $upload_pas_foto;
         $administrasi->transkip = $upload_transkip;
         $administrasi->surat_rekomendasi = $upload_surat_rekomendasi;
-        $administrasi->program_id = $request->program->nama_program;       
+        $administrasi->program_id = $program->nama_program;       
         $administrasi->save();
         
         return response()->json([
