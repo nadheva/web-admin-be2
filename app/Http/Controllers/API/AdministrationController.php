@@ -334,7 +334,7 @@ class AdministrationController extends Controller
         // dd($request);
         
         $data = Administration::join('program','data_mahasiswa.program_id','=','program.id')
-        ->select('data_mahasiswa.*','program.nama_program')->get();
+        ->select('data_mahasiswa.*','program.nama_program')->where('user_id', Auth::user()->id)->first();
         // $data = Administration::all();
 
         return response()->json([
