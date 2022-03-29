@@ -13,7 +13,6 @@ class AdministrationController extends Controller
 {
     public function store(Request $request)
     {
-        $program = Program::all();
         if (isset($request->pakta_integritas)) {
             $extention = $request->pakta_integritas->extension();
             $file_pakta_integritas = time() . '.' . $extention;
@@ -82,7 +81,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program_id' => $program->nama_program,
+            'program_id' => $request->program_id,
         ]);
 
         return response()->json([
@@ -95,7 +94,6 @@ class AdministrationController extends Controller
 
     function update(Request $request, $id)
     {
-        $program = Program::all();
         $user = Auth::user();
         // dd($request);
         if (isset($request->pakta_integritas)) {
@@ -200,7 +198,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program_id' => $program->nama_program,
+            'program_id' => $request->program_id,
         ]);
 
         User::where('id', $id)->update([
@@ -323,7 +321,7 @@ class AdministrationController extends Controller
         $administrasi->pas_foto = $upload_pas_foto;
         $administrasi->transkip = $upload_transkip;
         $administrasi->surat_rekomendasi = $upload_surat_rekomendasi;
-        $administrasi->program_id = $program->nama_program;       
+        $administrasi->program_id = $request->program_id;       
         $administrasi->save();
         
         return response()->json([
