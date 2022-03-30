@@ -293,7 +293,9 @@ class AdministrationController extends Controller
         $administrasi = Administration::where('user_id', $user->id)->first();
         $administrasi->nama_lengkap = $request->nama_lengkap;
         $administrasi->nik = $request->nik;
+        $administrasi->nim = $request->nim;
         $administrasi->email = $request->email;
+        $administrasi->universitas = $request->universitas;
         $administrasi->prodi = $request->prodi;
         $administrasi->tahun_ajar = $request->tahun_ajar;
         $administrasi->semester = $request->semester;
