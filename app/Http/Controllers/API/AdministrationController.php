@@ -290,7 +290,7 @@ class AdministrationController extends Controller
             $upload_surat_rekomendasi = null;
         }
 
-        $administrasi = Administration::where('user_id', Auth::user()->id)->first();
+        $administrasi = Administration::where('user_id', $user->id)->first();
         $administrasi->nama_lengkap = $request->nama_lengkap;
         $administrasi->nik = $request->nik;
         $administrasi->email = $request->email;
@@ -327,6 +327,7 @@ class AdministrationController extends Controller
         return response()->json([
             "error" => false,
             "message" => "success",
+            "data" => $administrasi
         ],200);
     }
 
