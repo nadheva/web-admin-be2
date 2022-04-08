@@ -74,7 +74,7 @@ class PertemuanController extends Controller
             $i++;
         }
     } else {
-        $kontenVideo_id = null;
+        $dataa = [];
     }
 
     if($kontenDokumen_id){
@@ -87,7 +87,7 @@ class PertemuanController extends Controller
             $i++;
         }
     } else {
-        $kontenDokumen_id = null;
+        $dataaa = [];
     }
 
         // foreach ($kontenVideo_id as $objectItem) {
