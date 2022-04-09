@@ -172,7 +172,7 @@ Route::get('/leaderboard', [LeaderboardController::class, 'index']);
 Route::get('/discussionForum', [DiscussionForumController::class, 'index']);
 Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
 Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
-
+Route::get('discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
 //DiscussionReply
 Route::get('/discussionReply/{id}', [DiscussionReplyController::class, 'index']);
 Route::delete('/discussionReply/destroy/{id}', [DiscussionReplyController::class, 'destroy']);

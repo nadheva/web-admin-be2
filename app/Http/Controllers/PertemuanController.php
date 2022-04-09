@@ -64,6 +64,7 @@ class PertemuanController extends Controller
         $kontenVideo_id = $request->kontenVideo_id;
         $kontenDokumen_id = $request->kontenDokumen_id;
 
+        if($kontenVideo_id){
         $i = 0;
         foreach ($kontenVideo_id as $item) {
             // dd($item);
@@ -72,7 +73,11 @@ class PertemuanController extends Controller
             ]);
             $i++;
         }
+    } else {
+        $dataa = [];
+    }
 
+    if($kontenDokumen_id){
         $i = 0;
         foreach ($kontenDokumen_id as $item) {
             // dd($item);
@@ -81,6 +86,9 @@ class PertemuanController extends Controller
             ]);
             $i++;
         }
+    } else {
+        $dataaa = [];
+    }
 
         // foreach ($kontenVideo_id as $objectItem) {
         //     $name = Name::firstOrNew(['name' => $objectItem]);

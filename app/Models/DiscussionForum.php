@@ -13,7 +13,6 @@ class DiscussionForum extends Model
         'judul',
         'isi',
         'user_id',
-        'username',
         'mata_kuliah_id',
         'gambar'
     ];
