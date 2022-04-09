@@ -26,6 +26,7 @@ class KelasController extends Controller
         } else {
             $kelas =  Kelas::all();
         }
+        // return $kelas;
         return new KelasCollection($kelas->paginate(18));
     }
 
