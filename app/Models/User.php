@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany(AksesKelas::class);
     }
 
+    public function studi()
+    {
+        return $this->hasOne(EnrollStudi::class);
+    }
+
     public function data_dosen()
     {
         return $this->hasOne(DataDosen::class);
