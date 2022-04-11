@@ -41,7 +41,7 @@ class EnrollStudiController extends Controller
         return new EnrollStudiCollection($enrolls);
     }
 
-    public function enroll_program($id, $request)
+    public function enroll_program($id)
     {
         $kelas = Kelas::get();
         $enroll = EnrollStudi::select('user_id')->where($id, $kelas()->program_id)->get();
