@@ -44,15 +44,16 @@ class EnrollStudiController extends Controller
     public function enroll_program($id)
     {
         // $enroll = EnrollStudi::select('user_id')->where($id, EnrollStudi::get()->kelas()->program_id)->get();
-        $user = User::all();
-        $enroll = EnrollStudi::select('user_id')->where('id', '=', $user->studi->kelas->program_id)->get();
+        $user = User::get();
+        $enroll = EnrollStudi::select('user_id')->get();
+        $enrolluser = $enroll->where('id', $user->studi->kelas->program_id)->get();
         // $enroll = EnrollStudi::whereHas('user_id', function ($user) {
         //     return $user->where('id', '=', $user->studi->kelas->program_id);
         // })->get();
         return response()->json([
             "error" => false,
             "success" => true,
-            "status" => $enroll
+            "status" => $enrolluser
         ]);
     }
 
