@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function studi()
     {
-        return $this->hasOne(EnrollStudi::class);
+        return $this->hasOne(EnrollStudi::class, 'id');
     }
 
     public function data_dosen()
