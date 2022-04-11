@@ -222,6 +222,7 @@ Route::get('/kamus_kg', [GuideController::class, 'kamus_kg']);
 Route::get('/view3/{file_name}', [ViewController::class, 'view_buku_panduan']);
 
 Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_program']);
+
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
