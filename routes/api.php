@@ -279,6 +279,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/unenroll', [EnrollStudiController::class, 'unenrollsbykelasid']);
     Route::get('/pertemuan', [PertemuanController::class, 'index']);
     Route::get('/pertemuan/{id}', [PertemuanController::class, 'findbyid']);
+    Route::get('/pertemuan_kuliah/{id}', [PertemuanController::class, 'pertemuan_matkul']);
     Route::get('/user-details', [PassportAuthController::class, 'userDetail']);
     Route::put('/user-details', [PassportAuthController::class, 'updateuserDetail']);
     Route::post('/kelas', [KelasController::class, 'store']);
