@@ -30,6 +30,12 @@ class KelasController extends Controller
         return new KelasCollection($kelas->paginate(18));
     }
 
+    public function program_kelas($id)
+    {
+        $kelas = Kelas::where('program_id', $id)->get();
+        return new KelasCollection($kelas->pagnate(18));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

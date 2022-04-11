@@ -80,6 +80,7 @@ Route::get('/kelas/{id}/video', [KelasController::class, 'kelas_video']);
 Route::get('/kelas/{id}/dokumen', [KelasController::class, 'kelas_dokumen']);
 Route::post('/kelas/{id}/video', [KontenVideoController::class, 'store']);
 Route::post('/kelas/{id}/dokumen', [KontenDokumenController::class, 'store']);
+Route::get('/kelas/program/{id}', [KelasController::class, 'program_kelas']);
 // Route::get('/kelas/search/{name}', [KelasController::class, 'search']);
 
 // Route kategori
