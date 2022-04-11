@@ -221,7 +221,7 @@ Route::get('/video_panduan', [GuideController::class, 'video_panduan']);
 Route::get('/kamus_kg', [GuideController::class, 'kamus_kg']);
 Route::get('/view3/{file_name}', [ViewController::class, 'view_buku_panduan']);
 
-
+Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_program']);
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
@@ -273,7 +273,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);
     Route::get('/enroll/{id}', [EnrollMataKuliahController::class, 'findbyid']);
     Route::post('/enroll', [EnrollStudiController::class, 'store']);
-    Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_program']);
+
     Route::delete('/unenroll/{id}', [EnrollStudiController::class, 'unenrolls']);
     Route::delete('/unenroll', [EnrollStudiController::class, 'unenrollsbykelasid']);
     Route::get('/pertemuan', [PertemuanController::class, 'index']);
