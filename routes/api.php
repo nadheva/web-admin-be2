@@ -273,6 +273,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);
     Route::get('/enroll/{id}', [EnrollMataKuliahController::class, 'findbyid']);
     Route::post('/enroll', [EnrollStudiController::class, 'store']);
+    Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_program']);
     Route::delete('/unenroll/{id}', [EnrollStudiController::class, 'unenrolls']);
     Route::delete('/unenroll', [EnrollStudiController::class, 'unenrollsbykelasid']);
     Route::get('/pertemuan', [PertemuanController::class, 'index']);

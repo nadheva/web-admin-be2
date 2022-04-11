@@ -40,6 +40,14 @@ class EnrollStudiController extends Controller
         return new EnrollStudiCollection($enrolls);
     }
 
+    public function enroll_program()
+    {
+        $enroll = EnrollStudi::select('user_id')->where('id', EnrollStudi::all()->kelas->program_id)->get();
+        return response()->json([
+            "status" => $enroll
+        ]);
+    }
+
     public function enroll($id)
     {
         $enrolls = EnrollStudi::where('kelas_id', $id)->count();
