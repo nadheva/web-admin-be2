@@ -33,7 +33,7 @@ class KelasController extends Controller
     public function program_kelas($id)
     {
         $kelas = Kelas::where('program_id', $id)->get();
-        return new KelasCollection($kelas->pagnate(18));
+        return new KelasCollection($kelas->paginate(18));
     }
 
     /**
