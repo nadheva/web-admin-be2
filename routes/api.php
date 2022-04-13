@@ -75,7 +75,7 @@ Route::post('/login', [PassportAuthController::class, 'login']);
 Route::resource('data-dosen', DataDosenController::class);
 
 
-// Program
+//  Program
 Route::get('/getProgram', [ProgramController::class, 'index']);
 Route::post('/program', [ProgramController::class, 'store']);
 Route::put('/program/{id}', [ProgramController::class, 'update']);
