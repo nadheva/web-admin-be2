@@ -17,7 +17,9 @@ class CreateAdministrationTable extends Migration
             $table->id();
             $table->string('nama_lengkap')->nullable();
             $table->string('nik')->nullable();
+            $table->string('nim')->nullable();
             $table->string('email')->nullable();
+            $table->string('universitas')->nullable();
             $table->string('prodi')->nullable();
             $table->string('tahun_ajar')->nullable();
             $table->integer('semester')->nullable();
@@ -45,10 +47,10 @@ class CreateAdministrationTable extends Migration
             $table->string('pas_foto')->nullable();
             $table->string('transkip')->nullable();
             $table->string('surat_rekomendasi')->nullable();
-            $table->enum('program', ['D1', ['S1'], ['Kursus']])->nullable();
             $table->boolean('isVerified')->nullable();
             $table->boolean('isComplete')->nullable();
             $table->foreignId("user_id")->constrained("users")->onDelete("cascade")->onUpdate("cascade")->nullable();
+            $table->foreignId("program_id")->nullable()->constrained("program")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }
@@ -60,6 +62,6 @@ class CreateAdministrationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administration');
+        Schema::dropIfExists('data_mahasiswa');
     }
 }

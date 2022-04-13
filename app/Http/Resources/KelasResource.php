@@ -18,6 +18,8 @@ class KelasResource extends JsonResource
             'id' => $this->id,
             'nama' => $this->nama,
             'deskripsi' => $this->deskripsi,
+            'sebelum' => $this->sebelum,
+            'program_id' => $this->program_id,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
           ];

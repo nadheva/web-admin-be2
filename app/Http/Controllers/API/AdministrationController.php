@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Administration;
 use App\Models\User;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,7 +81,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program' => $request->program,
+            'program_id' => $request->program_id,
         ]);
 
         return response()->json([
@@ -197,7 +198,7 @@ class AdministrationController extends Controller
             'pas_foto' => $upload_pas_foto,
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program' => $request->program,
+            'program_id' => $request->program_id,
         ]);
 
         User::where('id', $id)->update([
@@ -216,6 +217,7 @@ class AdministrationController extends Controller
     public function updateAdministrasi(Request $request)
     {
         $user = Auth::user();
+        $program = Program::all();
         // dd($request);
         if (isset($request->pakta_integritas)) {
             $extention = $request->pakta_integritas->extension();
@@ -288,53 +290,57 @@ class AdministrationController extends Controller
             $upload_surat_rekomendasi = null;
         }
 
-        $administrasi = Administration::where('user_id', $user->id)->update([
-            'nama_lengkap' => $request->nama_lengkap,
-            'nik' => $request->nik,
-            'email' => $request->email,
-            'prodi' => $request->prodi,
-            'tahun_ajar' => $request->tahun_ajar,
-            'semester' => $request->semester,
-            'alamat_domisili' => $request->alamat_domisili,
-            'alamat_ktp' => $request->alamat_ktp,
-            'no_hp' => $request->no_hp,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'kelamin' => $request->kelamin,
-            'kebutuhan_khusus' => $request->kebutuhan_khusus,
-            'tinggal' => $request->tinggal,
-            'pembiaya' => $request->pembiaya,
-            'nama_ayah' => $request->nama_ayah,
-            'nama_ibu' => $request->nama_ibu,
-            'kerja_ayah' => $request->kerja_ayah,
-            'kerja_ibu' => $request->kerja_ibu,
-            'pekerjaan' => $request->pekerjaan,
-            'penghasilan' => $request->penghasilan,
-            'penghasilan_ayah' => $request->penghasilan_ayah,
-            'penghasilan_ibu' => $request->penghasilan_ibu,
-            'pakta_integritas' => $upload_pakta_integritas,
-            'scan_ktp' => $upload_scan_ktp,
-            'scan_kk' => $upload_scan_kk,
-            'scan_ijazah' => $upload_scan_ijazah,
-            'pas_foto' => $upload_pas_foto,
-            'transkip' => $upload_transkip,
-            'surat_rekomendasi' => $upload_surat_rekomendasi,
-            'program' => $request->program,
-        ]);
-
+        $administrasi = Administration::where('user_id', $user->id)->first();
+        $administrasi->nama_lengkap = $request->nama_lengkap;
+        $administrasi->nik = $request->nik;
+        $administrasi->nim = $request->nim;
+        $administrasi->email = $request->email;
+        $administrasi->universitas = $request->universitas;
+        $administrasi->prodi = $request->prodi;
+        $administrasi->tahun_ajar = $request->tahun_ajar;
+        $administrasi->semester = $request->semester;
+        $administrasi->alamat_domisili = $request->alamat_domisili;
+        $administrasi->alamat_ktp = $request->alamat_ktp;
+        $administrasi->no_hp = $request->no_hp;
+        $administrasi->tempat_lahir = $request->tempat_lahir;
+        $administrasi->tgl_lahir = $request->tgl_lahir;
+        $administrasi->kelamin = $request->kelamin;
+        $administrasi->kebutuhan_khusus = $request->kebutuhan_khusus;
+        $administrasi->tinggal = $request->tinggal;
+        $administrasi->pembiaya = $request->pembiaya;
+        $administrasi->nama_ayah = $request->nama_ayah;
+        $administrasi->nama_ibu = $request->nama_ibu;
+        $administrasi->kerja_ayah = $request->kerja_ayah;
+        $administrasi->kerja_ibu = $request->kerja_ibu;
+        $administrasi->pekerjaan = $request->pekerjaan;
+        $administrasi->penghasilan = $request->penghasilan;
+        $administrasi->penghasilan_ayah = $request->penghasilan_ayah;
+        $administrasi->penghasilan_ibu = $request->penghasilan_ibu;
+        $administrasi->pakta_integritas = $upload_pakta_integritas;
+        $administrasi->scan_ktp = $upload_scan_ktp;
+        $administrasi->scan_kk = $upload_scan_kk;
+        $administrasi->scan_ijazah = $upload_scan_ijazah;
+        $administrasi->pas_foto = $upload_pas_foto;
+        $administrasi->transkip = $upload_transkip;
+        $administrasi->surat_rekomendasi = $upload_surat_rekomendasi;
+        $administrasi->program_id = $request->program_id;       
+        $administrasi->save();
+        
         return response()->json([
             "error" => false,
             "message" => "success",
-            "nama" => $request->nama_lengkap
-        ]);
+            "data" => $administrasi
+        ],200);
     }
 
     public function getAdministrasi()
     {
-        $user = Auth::user();
+        // $user = Auth::user();
         // dd($request);
         
-        $data = Administration::where('user_id', $user)->first();
+        $data = Administration::join('program','data_mahasiswa.program_id','=','program.id')
+        ->select('data_mahasiswa.*','program.nama_program')->where('user_id', Auth::user()->id)->first();
+        // $data = Administration::all();
 
         return response()->json([
             "error" => false,

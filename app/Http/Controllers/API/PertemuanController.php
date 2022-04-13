@@ -25,6 +25,12 @@ class PertemuanController extends Controller
         return new PertemuanCollection($meet);
     }
 
+    public function pertemuan_matkul($id)
+    {
+        $pertemuan = Pertemuan::where($id, 'mata_kuliah_id')->get();
+        return new PertemuanCollection($pertemuan);
+    }
+
     public function findbyid($id)
     {
         $meet = Pertemuan::find($id);

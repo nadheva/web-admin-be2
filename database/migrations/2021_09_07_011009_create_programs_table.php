@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKelasTable extends Migration
+class CreateProgramsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateKelasTable extends Migration
      */
     public function up()
     {
-        Schema::create('kelas', function (Blueprint $table) {
+        Schema::create('program', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->text('deskripsi');
-            $table->text('sebelum')->nullable();
-            $table->foreignId("program_id")->constrained("program")->onDelete("cascade")->onUpdate("cascade");
+            $table->string('nama_program')->nullable();
+            $table->string('detail')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateKelasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kelas');
+        Schema::dropIfExists('program');
     }
 }

@@ -36,6 +36,7 @@ use App\Http\Controllers\API\DiscussionReplyController;
 use App\Http\Controllers\API\DiscussionReply2Controller;
 use App\Http\Controllers\API\DiscussionLikeController;
 use App\Http\Controllers\API\DiscussionLike2Controller;
+use App\Http\Controllers\API\DokumenKonsultasiController;
 use App\Http\Controllers\API\ExamController;
 use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\TranskipController;
@@ -44,12 +45,12 @@ use App\Http\Controllers\API\UserJobChannelController;
 use App\Http\Controllers\API\UserMandiriController;
 use App\Http\Controllers\API\SertifikatController;
 use App\Http\Controllers\API\GuideController;
-<<<<<<< Updated upstream
-=======
+
 use App\Http\Controllers\API\ProgramController;
 use App\Http\Controllers\API\DataDosenController;
->>>>>>> Stashed changes
+
 use App\Models\DiscussionForum;
+use App\Models\DokumenKonsultasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +66,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
 Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
 // Public routes
 Route::post('/register', [PassportAuthController::class, 'register']);
@@ -73,7 +75,6 @@ Route::post('/login', [PassportAuthController::class, 'login']);
 
 // Data Dosen
 Route::resource('data-dosen', DataDosenController::class);
-
 
 //  Program
 Route::get('/getProgram', [ProgramController::class, 'index']);
@@ -89,6 +90,7 @@ Route::get('/kelas/{id}/video', [KelasController::class, 'kelas_video']);
 Route::get('/kelas/{id}/dokumen', [KelasController::class, 'kelas_dokumen']);
 Route::post('/kelas/{id}/video', [KontenVideoController::class, 'store']);
 Route::post('/kelas/{id}/dokumen', [KontenDokumenController::class, 'store']);
+Route::get('/kelas/program/{id}', [KelasController::class, 'program_kelas']);
 // Route::get('/kelas/search/{name}', [KelasController::class, 'search']);
 
 // Route kategori
@@ -181,7 +183,7 @@ Route::get('/leaderboard', [LeaderboardController::class, 'index']);
 Route::get('/discussionForum', [DiscussionForumController::class, 'index']);
 Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
 Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
-
+Route::get('discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
 //DiscussionReply
 Route::get('/discussionReply/{id}', [DiscussionReplyController::class, 'index']);
 Route::delete('/discussionReply/destroy/{id}', [DiscussionReplyController::class, 'destroy']);
@@ -228,16 +230,16 @@ Route::get('/buku_panduan', [GuideController::class, 'buku_panduan']);
 Route::get('/video_panduan', [GuideController::class, 'video_panduan']);
 Route::get('/kamus_kg', [GuideController::class, 'kamus_kg']);
 Route::get('/view3/{file_name}', [ViewController::class, 'view_buku_panduan']);
-Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
+
+Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_program']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
-<<<<<<< Updated upstream
-    Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);  
-=======
+
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
     Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
->>>>>>> Stashed changes
+    Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
+    Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
     //User Job Channel
     Route::post('/userjobchannel', [UserJobChannelController::class, 'store']);
 
@@ -285,10 +287,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);
     Route::get('/enroll/{id}', [EnrollMataKuliahController::class, 'findbyid']);
     Route::post('/enroll', [EnrollStudiController::class, 'store']);
+
     Route::delete('/unenroll/{id}', [EnrollStudiController::class, 'unenrolls']);
     Route::delete('/unenroll', [EnrollStudiController::class, 'unenrollsbykelasid']);
     Route::get('/pertemuan', [PertemuanController::class, 'index']);
     Route::get('/pertemuan/{id}', [PertemuanController::class, 'findbyid']);
+    Route::get('/pertemuan_kuliah/{id}', [PertemuanController::class, 'pertemuan_matkul']);
     Route::get('/user-details', [PassportAuthController::class, 'userDetail']);
     Route::put('/user-details', [PassportAuthController::class, 'updateuserDetail']);
     Route::post('/kelas', [KelasController::class, 'store']);
