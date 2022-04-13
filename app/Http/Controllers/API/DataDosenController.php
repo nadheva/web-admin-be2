@@ -26,7 +26,18 @@ class DataDosenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tipe' => 'required',
+            'detail_dosen' => 'required',
+            'nama_lengkap' => 'required',
+            'no_hp' => 'required',
+            'alamat' => 'required',
+            'nidn' => 'required',
+            'ktp' => 'required',
+            'user_id' => 'required',
+            //'kategori' => 'required',
+        ]);
+        return DataDosen::create($request->all());
     }
 
     /**
