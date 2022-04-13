@@ -36,6 +36,7 @@ use App\Http\Controllers\API\DiscussionReplyController;
 use App\Http\Controllers\API\DiscussionReply2Controller;
 use App\Http\Controllers\API\DiscussionLikeController;
 use App\Http\Controllers\API\DiscussionLike2Controller;
+use App\Http\Controllers\API\DokumenKonsultasiController;
 use App\Http\Controllers\API\ExamController;
 use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\TranskipController;
@@ -46,6 +47,7 @@ use App\Http\Controllers\API\SertifikatController;
 use App\Http\Controllers\API\GuideController;
 use App\Http\Controllers\API\ProgramController;
 use App\Models\DiscussionForum;
+use App\Models\DokumenKonsultasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +62,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */ 
+Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
 Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
 // Public routes
 Route::post('/register', [PassportAuthController::class, 'register']);
