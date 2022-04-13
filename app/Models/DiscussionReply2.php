@@ -13,7 +13,6 @@ class DiscussionReply2 extends Model
         'discussion_reply_id',
         'isi',
         'user_id',
-        'username'
     ];
 
     protected $casts = [ 

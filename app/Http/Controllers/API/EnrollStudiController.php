@@ -24,6 +24,7 @@ use App\Models\Administration;
 use App\Models\EnrollMataKuliah;
 use App\Models\EnrollStudi;
 use App\Models\MataKuliah;
+use App\Models\User;
 
 class EnrollStudiController extends Controller
 {
@@ -38,6 +39,17 @@ class EnrollStudiController extends Controller
         $user       =   Auth::user();
         $enrolls       =  EnrollStudi::where('user_id', $user->id)->get();
         return new EnrollStudiCollection($enrolls);
+    }
+
+    public function enroll_program($id)
+    {
+        $enroll = EnrollStudi::select('user_id')->where('kelas_id', $id)->get();
+
+        return response()->json([
+            "error" => false,
+            "success" => true,
+            "status" => $enroll
+        ]);
     }
 
     public function enroll($id)

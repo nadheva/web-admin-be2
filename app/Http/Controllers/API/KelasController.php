@@ -26,6 +26,13 @@ class KelasController extends Controller
         } else {
             $kelas =  Kelas::all();
         }
+        // return $kelas;
+        return new KelasCollection($kelas->paginate(18));
+    }
+
+    public function program_kelas($id)
+    {
+        $kelas = Kelas::where('program_id', $id)->get();
         return new KelasCollection($kelas->paginate(18));
     }
 

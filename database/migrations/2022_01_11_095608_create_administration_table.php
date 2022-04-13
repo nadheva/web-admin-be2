@@ -17,7 +17,9 @@ class CreateAdministrationTable extends Migration
             $table->id();
             $table->string('nama_lengkap')->nullable();
             $table->string('nik')->nullable();
+            $table->string('nim')->nullable();
             $table->string('email')->nullable();
+            $table->string('universitas')->nullable();
             $table->string('prodi')->nullable();
             $table->string('tahun_ajar')->nullable();
             $table->integer('semester')->nullable();
@@ -60,6 +62,6 @@ class CreateAdministrationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administration');
+        Schema::dropIfExists('data_mahasiswa');
     }
 }

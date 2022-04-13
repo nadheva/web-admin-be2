@@ -26,52 +26,52 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('users')->insert([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'admin',
-            'firebaseUID' => 'admin',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'dosen',
-            'email' => 'dosen@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'dosen',
-            'firebaseUID' => 'dosen',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'user',
-            'email' => 'user@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'mahasiswa',
-            'firebaseUID' => 'user',
-            'dosen_akademik' => 'dosen',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'learning',
-            'email' => 'learning.kampusgratis1@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'mahasiswa',
-            'firebaseUID' => 'o6xpgIdzzuY5A4wgfQLwpIGoOs42',
-            'dosen_akademik' => 'dosen',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'learning',
-            'email' => 'learning.kampusgratis3@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'mahasiswa',
-            'firebaseUID' => 'jkWufdhKgGed7WbF4msiyAttgBY2',
-            'dosen_akademik' => 'dosen',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'riyanto',
-            'email' => 'salamceocantiq@gmail.com',
-            'password' => bcrypt('123123123'),
-            'role' => 'mahasiswa',
-            'firebaseUID' => 'NYErGOvHwWRui406d8MkwoMz4Qv2',
-            'dosen_akademik' => 'dosen',
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'admin',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'admin',
+        //     'firebaseUID' => 'admin',
+        // ]);
+        // DB::table('users')->insert([
+        //     'name' => 'dosen',
+        //     'email' => 'dosen@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'dosen',
+        //     'firebaseUID' => 'dosen',
+        // ]);
+        // DB::table('users')->insert([
+        //     'name' => 'user',
+        //     'email' => 'user@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'mahasiswa',
+        //     'firebaseUID' => 'user',
+        //     'dosen_akademik' => 'dosen',
+        // ]);
+        // DB::table('users')->insert([
+        //     'name' => 'learning',
+        //     'email' => 'learning.kampusgratis1@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'mahasiswa',
+        //     'firebaseUID' => 'o6xpgIdzzuY5A4wgfQLwpIGoOs42',
+        //     'dosen_akademik' => 'dosen',
+        // ]);
+        // DB::table('users')->insert([
+        //     'name' => 'learning',
+        //     'email' => 'learning.kampusgratis3@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'mahasiswa',
+        //     'firebaseUID' => 'jkWufdhKgGed7WbF4msiyAttgBY2',
+        //     'dosen_akademik' => 'dosen',
+        // ]);
+        // DB::table('users')->insert([
+        //     'name' => 'riyanto',
+        //     'email' => 'salamceocantiq@gmail.com',
+        //     'password' => bcrypt('123123123'),
+        //     'role' => 'mahasiswa',
+        //     'firebaseUID' => 'NYErGOvHwWRui406d8MkwoMz4Qv2',
+        //     'dosen_akademik' => 'dosen',
+        // ]);
     }
 
     /**
