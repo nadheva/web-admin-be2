@@ -82,6 +82,7 @@ class AdministrationController extends Controller
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
             'program_id' => $request->program_id,
+            'isComplete' => $request->isComplete
         ]);
 
         return response()->json([
@@ -199,6 +200,7 @@ class AdministrationController extends Controller
             'transkip' => $upload_transkip,
             'surat_rekomendasi' => $upload_surat_rekomendasi,
             'program_id' => $request->program_id,
+            'isComplete' => $request->isComplete
         ]);
 
         User::where('id', $id)->update([
@@ -323,7 +325,8 @@ class AdministrationController extends Controller
         $administrasi->pas_foto = $upload_pas_foto;
         $administrasi->transkip = $upload_transkip;
         $administrasi->surat_rekomendasi = $upload_surat_rekomendasi;
-        $administrasi->program_id = $request->program_id;       
+        $administrasi->program_id = $request->program_id; 
+        $administrasi->isComplete = $request->isComplete;      
         $administrasi->save();
         
         return response()->json([
