@@ -15,7 +15,8 @@ class DataDosenController extends Controller
      */
     public function index()
     {
-        return DataDosen::all();
+        return DataDosen::all('id', 'nama_lengkap',  'no_hp', 'alamat', 'nidn');
+        //return DataDosen::all();
     }
 
     /**
@@ -26,18 +27,27 @@ class DataDosenController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'tipe' => 'required',
-            'detail_dosen' => 'required',
-            'nama_lengkap' => 'required',
-            'no_hp' => 'required',
-            'alamat' => 'required',
-            'nidn' => 'required',
-            'ktp' => 'required',
-            'user_id' => 'required',
-            //'kategori' => 'required',
+
+        $result = DataDosen::create([
+            'tipe' => $request->tipe,
+            'detail_dosen' => $request->detail_dosen,
+            'nama_lengkap' => $request->nama_lengkap,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'nidn' => $request->nidn,
+            'ktp' => $request->ktp,
+            'user_id' => $request->user_id,
+            'isVerified' => $request->isVerified,
         ]);
-        return DataDosen::create($request->all());
+
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil ditambahkan',
+            ], 201);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Data gagal ditambahkan'], 400);
+        }
     }
 
     /**
@@ -48,7 +58,12 @@ class DataDosenController extends Controller
      */
     public function show($id)
     {
-        return DataDosen::find($id);
+        $result = DataDosen::find($id);
+        if ($result) {
+            return $result;
+        } else {
+            return response()->json(['success' => false, 'message' => 'Data gagal ditemukan'], 400);
+        }
     }
 
     /**
@@ -71,6 +86,15 @@ class DataDosenController extends Controller
      */
     public function destroy($id)
     {
-        return DataDosen::destroy($id);
+        $result = DataDosen::destroy($id);
+
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil dihapus',
+            ], 201);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Data gagal dihapus'], 400);
+        }
     }
 }
