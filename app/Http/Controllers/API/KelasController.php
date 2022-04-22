@@ -22,9 +22,9 @@ class KelasController extends Controller
         $que = $request->search;
         if ($que) {
             $kelas =  Kelas::where(strtolower('nama'), 'like', '%' . $que . '%')
-                ->orWhere(strtolower('deskripsi'), 'LIKE', '%' . $que . '%')->get();
+                ->orWhere(strtolower('deskripsi'), 'LIKE', '%' . $que . '%')->get(['id', 'nama', 'deskripsi']);
         } else {
-            $kelas =  Kelas::all();
+            $kelas =  Kelas::get(['id', 'nama', 'deskripsi']);
         }
         // return $kelas;
         return new KelasCollection($kelas->paginate(18));
@@ -117,7 +117,7 @@ class KelasController extends Controller
 
     public function kelas_video($id)
     {
-        return Kelas::find($id)->get_video;
+        return Kelas::find($id)->with('get_video')->get();
         // return ResponseFormatter::success($kelas, "Hasil pencarian video");
     }
 }

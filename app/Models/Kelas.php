@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\KontenDokumen;
-use App\Models\KontenVideo;
-use App\Models\Kategori;
 use App\Models\AssignmentFile;
 use App\Models\AssignmentText;
-use App\Models\AssiigmentPilgan;
+use App\Models\KontenVideo;
 
 class Kelas extends Model
 {
@@ -42,6 +39,10 @@ class Kelas extends Model
     	return $this->hasMany(MataKuliah::class);
     }    
 
+    public function get_video()
+    {
+        return $this->hasMany(KontenVideo::class);
+    }
 
     public function get_content()
     {

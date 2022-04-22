@@ -20,7 +20,7 @@ class KategoriController extends Controller
     public function index()
     {
 
-        $kategori =  Kategori::all();
+        $kategori =  Kategori::get();
         return new KategoriCollection($kategori);
     }
 
@@ -33,7 +33,7 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama_kategori' => 'required',
             'deskripsi' => 'required',
             //'kategori' => 'required',
         ]);
@@ -64,7 +64,8 @@ class KategoriController extends Controller
     {
         //
         $kategori = Kategori::find($id);
-        $kategori ->update($request->all());
+        $kategori->update($request->all());
+
         return $kategori;
         // return ResponseFormatter::success($kategori, "Skill level berhasil diedit!");
     }
@@ -78,7 +79,11 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         //
-        return Kategori::destroy($id);
+        Kategori::destroy($id);
+        return response()->json([
+            "error" => false,
+            "message" => "Kategori berhasil dihapus!"
+        ], 200);
         // return ResponseFormatter::success(null, "Skill level berhasil dihapus!");
     }
 
@@ -90,7 +95,7 @@ class KategoriController extends Controller
      */
     public function search($name)
     {
-        return Kategori::where(strtolower('nama'), 'like', '%'.$name.'%')->get();
+        return Kategori::where(strtolower('nama_kategori'), 'like', '%'.$name.'%')->get();
         // return ResponseFormatter::success($kategori, "Hasil pencarian skill level");
     }
 

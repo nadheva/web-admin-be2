@@ -23,6 +23,7 @@ class CreateEnrollMataKuliahTable extends Migration
             $table->double('nilai_akhir')->nullable();
             $table->boolean('isComplete')->default(false);
             $table->boolean('isStart')->default(false);
+            $table->foreignId("dosen_id")->constrained("data_dosen")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }

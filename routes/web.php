@@ -28,7 +28,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamPilganController;
 use App\Http\Controllers\AdministrasiController;
 use App\Http\Controllers\GuideController;
-use App\Http\Controllers\ChatsController;
+// use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProgramController;
 use App\Models\Assignment;
@@ -57,7 +57,7 @@ Route::group(['prefix' => 'message'], function () {
 // Route::get('/test', function () {
 //     return view('admin.ujian.tambah');
 // });
-Route::get('/home', [ChatController::class, 'index'])->name('home');
+// Route::get('/home', [ChatController::class, 'index'])->name('home');
 Route::get('/landing-page', function () {
     return view('landingPage.index');
 });
@@ -90,26 +90,26 @@ Route::get('register', [AuthController::class, 'showFormRegister'])->name('regis
 Route::post('register', [AuthController::class, 'register']);
 
 //Route Assignment File
-Route::get('/assignmentFile/{id}/create', [AssignmentController::class, 'viewstoreFile'])->name('viewAssignmentFile');
+// Route::get('/assignmentFile/{id}/create', [AssignmentController::class, 'viewstoreFile'])->name('viewAssignmentFile');
 Route::post('/assignment/store', [AssignmentController::class, 'store'])->name('AssignmentStore');
 Route::get('/assignment/destroy/{id}', [AssignmentController::class, 'destroy'])->name('AssignmentDestroy');
 
 //Route Assignment Text
-Route::get('/assignmentText/{id}/create', [AssignmentController::class, 'tambahAssignmentText'])->name('tambahAssignmentText');
-Route::post('/assignmentText/store', [AssignmentController::class, 'storeAssignmentText'])->name('storeAssignmentText');
+// Route::get('/assignmentText/{id}/create', [AssignmentController::class, 'tambahAssignmentText'])->name('tambahAssignmentText');
+// Route::post('/assignmentText/store', [AssignmentController::class, 'storeAssignmentText'])->name('storeAssignmentText');
 
 //Route Assignment Pilihan Ganda
-Route::get('/assignmentPilgan/{id}/create', [AssignmentController::class, 'tambahAssignmentPilgan'])->name('tambahAssignmentPilgan');
-Route::post('/assignmentPilgan/store', [AssignmentController::class, 'storeAssignmentPilgan'])->name('storeAssignmentPilgan');
-Route::get('/assignmentPilgan/{id}/show', [AssignmentController::class, 'show'])->name('showPilgan');
-Route::post('/assignmentPilgan/import', [AssignmentController::class, 'importAssignmentPilgan'])->name('importAssignmentPilgan');
-Route::get('/assignmentPilgan/{id}/show', [AssignmentController::class, 'showPilgan'])->name('showPilgan');
+// Route::get('/assignmentPilgan/{id}/create', [AssignmentController::class, 'tambahAssignmentPilgan'])->name('tambahAssignmentPilgan');
+// Route::post('/assignmentPilgan/store', [AssignmentController::class, 'storeAssignmentPilgan'])->name('storeAssignmentPilgan');
+// Route::get('/assignmentPilgan/{id}/show', [AssignmentController::class, 'show'])->name('showPilgan');
+// Route::post('/assignmentPilgan/import', [AssignmentController::class, 'importAssignmentPilgan'])->name('importAssignmentPilgan');
+// Route::get('/assignmentPilgan/{id}/show', [AssignmentController::class, 'showPilgan'])->name('showPilgan');
 
 Route::post('/pertemuan/store', [PertemuanController::class, 'store'])->name('storePertemuan');
 Route::get('/pertemuan/destroy/{id}', [PertemuanController::class, 'destroy'])->name('hapusPertemuan');
 Route::get('/pertemuan/lihat-pertemuan/{id}', [PertemuanController::class, 'detail'])->name('detailPertemuan');
 Route::get('/tambahKuis/{id}/create', [AssignmentController::class, 'tambahKuis'])->name('tambahKuis');
-Route::post('/pertemuan/import', [PertemuanPilganController::class, 'soalQuiz'])->name('soalQuiz');
+// Route::post('/pertemuan/import', [PertemuanPilganController::class, 'soalQuiz'])->name('soalQuiz');
 Route::get('/showAssignment/{id}', [UserAssignmentController::class, 'showAssignment'])->name('showAssignment');
 Route::get('/show-userAssignment/{id}', [UserAssignmentController::class, 'showUserAssignment'])->name('showUserAssignment');
 Route::put('/grading/{id}', [UserAssignmentController::class, 'grading'])->name('grading');
@@ -169,9 +169,9 @@ Route::get('jobChannel/view_approve/{id}', [JobChannelController::class, 'view_a
 Route::put('jobChannel/approve/{id}', [JobChannelController::class, 'approve']);
 
 // Route::resource('assignment', AssignmentController::class);
-Route::resource('assignmentFile', AssignmentFileController::class);
-//Route::resource('assignmentPilgan', AssignmentPilganController::class);
-Route::resource('assignmentText', AssignmentTextController::class);
+// Route::resource('assignmentFile', AssignmentFileController::class);
+// Route::resource('assignmentPilgan', AssignmentPilganController::class);
+// Route::resource('assignmentText', AssignmentTextController::class);
 
 Route::get('/data-mahasiswa/{id}', [MataKuliahController::class, 'mahasiswa'])->name('dataMahasiswa');
 
@@ -199,7 +199,7 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::get('/assignment/{id}/pilganDetail', [DashboardController::class, 'pilganDetail'])->name('pilganDetail');
     Route::get('/assignment/{id}/textDetail', [DashboardController::class, 'textDetail'])->name('textDetail');
     Route::get('/assignment/{id}/fileDetail', [DashboardController::class, 'fileDetail'])->name('fileDetail');
-    Route::get('/showPilgan/{id}', [AssignmentPilganController::class, 'show'])->name('showPilgan');
+    // Route::get('/showPilgan/{id}', [AssignmentPilganController::class, 'show'])->name('showPilgan');
 });
 Route::get('/discussion-forum', [DiscussionForumController::class, 'dosenindex'])->name('discussion-forum');
 Route::post('/tambah-komen', [DiscussionForumController::class, 'tambahKomen'])->name('tambahKomen');

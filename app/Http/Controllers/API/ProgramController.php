@@ -25,8 +25,13 @@ class ProgramController extends Controller
             'detail' => 'required',
             //'kategori' => 'required',
         ]);
-        return Program::create($request->all());
-        // return ResponseFormatter::success(null, "Program studi berhasil ditambahkan!");
+        $program = Program::create($request->all());
+
+        return response()->json([
+            "error" => false,
+            "message" => "success",
+            "data" => $program
+        ], 201);
     }
 
     /**
@@ -54,6 +59,7 @@ class ProgramController extends Controller
         //
         $program = Program::find($id);
         $program->update($request->all());
+        
         return $program;
         // return ResponseFormatter::success(null, "Program studi berhasil diedit!");
     }

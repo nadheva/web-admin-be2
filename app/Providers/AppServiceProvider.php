@@ -4,14 +4,12 @@ namespace App\Providers;
 use App\Models\Kelas;
 use App\Models\AksesKelas;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-use phpDocumentor\Reflection\Types\Resource_;
+// use App\Models\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
         /**
          * Paginate a standard Laravel Collection.
          *
@@ -61,6 +60,5 @@ class AppServiceProvider extends ServiceProvider
             return $post->featured();
         });
         // View::share('AksesKelas', AksesKelas::all());
-        
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DokumenKonsultasi;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File; 
 
 class DokumenKonsultasiController extends Controller
@@ -17,9 +18,12 @@ class DokumenKonsultasiController extends Controller
      */
     public function index()
     {
-        //
-        $dokumen = DokumenKonsultasi::all();
-        return response()->json($dokumen);
+        $dokumen = DokumenKonsultasi::where('user_id', Auth::user()->id)->get(['id', 'nama_dokumen', 'prioritas']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $dokumen
+        ]);
     }
 
     /**
@@ -32,7 +36,6 @@ class DokumenKonsultasiController extends Controller
     {
         //
         $this->validate($request, [
-            'user_id' => 'required',
             'nama_dokumen' => 'required',
             'file_dokumen' => 'required|mimes:doc,docx,pdf,txt|max:2048',
             'prioritas' => 'required',
@@ -41,7 +44,7 @@ class DokumenKonsultasiController extends Controller
 
         try {
             $dokumen = new DokumenKonsultasi();
-            $dokumen->user_id = $request->user_id;
+            $dokumen->user_id = Auth::user()->id;
             $dokumen->nama_dokumen = $request->nama_dokumen;
             $dokumen->prioritas = $request->prioritas;
             $dokumen->pesan = $request->pesan;

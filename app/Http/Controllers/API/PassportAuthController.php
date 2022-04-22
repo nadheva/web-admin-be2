@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Http\Resources\UserResource;
 use App\Models\Administration;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
 class PassportAuthController extends Controller
@@ -189,7 +190,7 @@ class PassportAuthController extends Controller
     // ---------------------------- [ Use Detail ] -------------------------------
     public function userDetail()
     {
-        $user       =       Auth::user();
+        $user = Auth::user();
         return new UserResource($user);
     }
 

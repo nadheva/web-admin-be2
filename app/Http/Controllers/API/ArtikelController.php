@@ -33,43 +33,36 @@ class ArtikelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
-              [
-                'judul' => 'required',
-                'gambar' => 'required|mimes:jpg,png|max:2048',
-                'deskripsi' => 'required',
-             ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
-        }
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'gambar' => 'required',
+        ]);
 
-        if ($gambar = $request->file('gambar')) {
-
-            //store file into document folder
-            $extention = $request->file->extension();
+        if (isset($request->gambar)) {
+            $extention = $request->gambar->extension();
             $file_name = time() . '.' . $extention;
             $txt = 'storage/images/'. $file_name;
             $request->gambar->storeAs('public/images', $file_name);
-
-            //store your file into database
-            $artikel = new Artikel();
-            $artikel->judul = $request->judul;
-            $artikel->gambar = $txt;
-            $artikel->deskripsi = $request->deskripsi;
-
-
-            return response()->json([
-                "error" => false,
-                "success" => true,
-                "message" => "File successfully uploaded",
-                "file" => $txt
-            ]);
-            // return ResponseFormatter::success(["file" => $txt], "Artikel berhasil ditambahkan!");
-
+        } else {
+            $file_name = null;
         }
-        return Artikel::create($request->all());
+
+        $artikel = artikel::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $txt,
+        ]);
+
+
+        return response()->json([
+            "error" => false,
+            "success" => true,
+            "message" => "Artikel berhasil ditambahkan!",
+            "data" => $artikel,
+        ], 201);
     }
 
     /**
@@ -96,7 +89,8 @@ class ArtikelController extends Controller
     {
         //
         $artikel = Artikel::find($id);
-        $artikel ->update($request->all());
+        $artikel->update($request->all());
+        
         return $artikel;
         // return ResponseFormatter::success($artikel, "Artikel berhasil diperbarui!");
     }
@@ -110,7 +104,11 @@ class ArtikelController extends Controller
     public function destroy($id)
     {
         //
-        return Artikel::destroy($id);
+        Artikel::destroy($id);
+        return response()->json([
+            "error" => false,
+            "message" => "Artikel berhasil dihapus!",
+        ], 200);
         // return ResponseFormatter::success(null, "Artikel berhasil dihapus!");
     }
 
