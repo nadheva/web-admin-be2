@@ -24,6 +24,8 @@ class DokumenKonsultasiController extends Controller
             'status' => 'success',
             'data' => $dokumen
         ]);
+        $dokumen = DokumenKonsultasi::all();
+        return response()->json($dokumen);
     }
 
     /**
