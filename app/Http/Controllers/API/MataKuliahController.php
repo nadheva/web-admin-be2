@@ -30,7 +30,7 @@ class MataKuliahController extends Controller
         // ], 200);
     }
 
-    public function findbyid($id)
+    public function show($id)
     {
         $meet = MataKuliah::find($id);
         return new MataKuliahResource($meet);

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\AdministrationController;
-use App\Models\Kelas;
 
 use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\API\EnrollMataKuliahController;
@@ -28,7 +27,7 @@ use App\Http\Controllers\API\IklanController;
 use App\Http\Controllers\API\JobChannelController;
 use App\Http\Controllers\API\ProfilController;
 use App\Http\Controllers\API\AssignmentController;
-use App\Http\Controllers\API\AssignmentFileController;
+// use App\Http\Controllers\API\AssignmentFileController;
 use App\Http\Controllers\API\AssignmentPilganController;
 use App\Http\Controllers\API\AssignmentTextController;
 use App\Http\Controllers\API\DiscussionForumController;
@@ -41,6 +40,7 @@ use App\Http\Controllers\API\ExamController;
 use App\Http\Controllers\API\LeaderboardController;
 use App\Http\Controllers\API\TranskipController;
 use App\Http\Controllers\API\UserExamController;
+use App\Http\Controllers\API\Jadwal_kuliahController;
 use App\Http\Controllers\API\UserJobChannelController;
 use App\Http\Controllers\API\UserMandiriController;
 use App\Http\Controllers\API\SertifikatController;
@@ -52,7 +52,6 @@ use App\Http\Controllers\API\DataDosenController;
 use App\Models\DiscussionForum;
 use App\Models\DokumenKonsultasi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,8 +63,8 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
-
+*/ 
+Route::resource('/jadwal-matkul', Jadwal_kuliahController::class);
 Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
 Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
 // Public routes
@@ -73,62 +72,46 @@ Route::post('/register', [PassportAuthController::class, 'register']);
 Route::post('/registration', [PassportAuthController::class, 'apiRegist']);
 Route::post('/login', [PassportAuthController::class, 'login']);
 
+// Program
+Route::resource('/program', ProgramController::class);
+
 // Data Dosen
 Route::resource('data-dosen', DataDosenController::class);
 
-//  Program
-Route::get('/getProgram', [ProgramController::class, 'index']);
-Route::post('/program', [ProgramController::class, 'store']);
-Route::put('/program/{id}', [ProgramController::class, 'update']);
-Route::delete('/program/{id}', [ProgramController::class, 'destroy']);
-
 // Route progam studi
-Route::get('/kelas', [KelasController::class, 'index']);
-Route::get('/kelas/{id}', [KelasController::class, 'show']);
-Route::get('/kelas/search/{name}', [KelasController::class, 'search']);
-Route::get('/kelas/{id}/video', [KelasController::class, 'kelas_video']);
-Route::get('/kelas/{id}/dokumen', [KelasController::class, 'kelas_dokumen']);
-Route::post('/kelas/{id}/video', [KontenVideoController::class, 'store']);
-Route::post('/kelas/{id}/dokumen', [KontenDokumenController::class, 'store']);
+Route::get('/kelas/search/{name}', [KelasController::class, 'search']); 
+Route::get('/kelas/{id}/video', [KelasController::class, 'kelas_video']); // Bug
+Route::get('/kelas/{id}/dokumen', [KelasController::class, 'kelas_dokumen']); // Bug
+Route::post('/kelas/{id}/video', [KontenVideoController::class, 'store']); // Bug
+Route::post('/kelas/{id}/dokumen', [KontenDokumenController::class, 'store']); // Bug
 Route::get('/kelas/program/{id}', [KelasController::class, 'program_kelas']);
-// Route::get('/kelas/search/{name}', [KelasController::class, 'search']);
+Route::resource('/kelas', KelasController::class);
 
 // Route kategori
-Route::get('/kategori', [KategoriController::class, 'index']);
-Route::get('/kategori/{id}', [KategoriController::class, 'show']);
 Route::get('/kategori/search/{name}', [KategoriController::class, 'search']);
-Route::get('/kategori/{id}/video', [KategoriController::class, 'kelas_video']);
-Route::get('/kategori/{id}/dokumen', [KategoriController::class, 'kelas_dokumen']);
+Route::get('/kategori/{id}/video', [KategoriController::class, 'kelas_video']); // Bug
+Route::get('/kategori/{id}/dokumen', [KategoriController::class, 'kelas_dokumen']); // Bug
+Route::resource('/kategori', KategoriController::class);
 
 // Route mata kuliah
-Route::get('/mata-kuliah', [MataKuliahController::class, 'index']);
-Route::get('/mata-kuliah/{id}', [MataKuliahController::class, 'findbyid']);
+Route::resource('/mata-kuliah', MataKuliahController::class);
 
 // Route konten dokumen
-Route::get('/dokumen', [KontenDokumenController::class, 'index']);
-Route::get('/dokumen/{id}', [KontenDokumenController::class, 'show']);
 Route::get('/dokumen/search/{name}', [KontenDokumenController::class, 'search']);
-Route::get('/kelas/{id}/dokumen/jumlah', [KontenDokumenController::class, 'jumlah_dokumen']);
+Route::get('/kelas/{id}/dokumen/jumlah', [KontenDokumenController::class, 'jumlah_dokumen']); // Bug
+Route::resource('/dokumen', KontenDokumenController::class);
 
 // Route konten video
-Route::get('/video', [KontenVideoController::class, 'index']);
-Route::get('/video/{id}', [KontenVideoController::class, 'show']);
 Route::get('/video/search/{name}', [KontenVideoController::class, 'search']);
-Route::get('/kelas/{id}/video/jumlah', [KontenVideoController::class, 'jumlah_video']);
+Route::get('/kelas/{id}/video/jumlah', [KontenVideoController::class, 'jumlah_video']); // Bug
+Route::resource('/video', KontenVideoController::class);
 
 //Route Artikel
-Route::get('/artikel', [ArtikelController::class, 'index']);
-Route::get('/artikel/show/{id}', [ArtikelController::class, 'show']);
 Route::get('/artikel/search/{judul}', [ArtikelController::class, 'search']);
-Route::post('/artikel/store', [ArtikelController::class, 'store']);
-Route::put('artikel/update/{id}', [ArtikelController::class, 'update']);
-Route::delete('artikel/delete/{id}', [ArtikelController::class, 'destroy']);
 Route::get('/artikel/new', [ArtikelController::class, 'latest_article']);
+Route::resource('/artikel', ArtikelController::class);
 
 //Route Iklan
-Route::get('/iklan', [IklanController::class, 'index']);
-Route::post('/iklan', [IklanController::class, 'store']);
-Route::get('/iklan/{id}', [IklanController::class, 'show']);
 Route::get('/iklan/{id}/download', [IklanController::class, 'download']);
 Route::get('/iklan/{id}/view', [IklanController::class, 'view']);
 Route::resource('iklan', IklanController::class);
@@ -201,15 +184,15 @@ Route::get('/discussionLike2', [DiscussionLike2Controller::class, 'index']);
 Route::delete('/discussionLike2/destroy/{id}', [DiscussionLike2Controller::class, 'destroy']);
 
 //DiscussionLike2
-Route::get('/discussionLike3', [DiscussionLike3Controller::class, 'index']);
-Route::delete('/discussionLike3/destroy/{id}', [DiscussionLike3Controller::class, 'destroy']);
+// Route::get('/discussionLike3', [DiscussionLike3Controller::class, 'index']);
+// Route::delete('/discussionLike3/destroy/{id}', [DiscussionLike3Controller::class, 'destroy']);
 
 //Route Assignment Pilgan
 Route::get('assignmentPilgan', [AssignmentPilganController::class, 'index']);
 Route::get('assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganController::class, 'show']);
 
 //Route Assignment Text
-Route::get('/assignmentText', [AssignmentFileController::class, 'index']);
+// Route::get('/assignmentText', [AssignmentFileController::class, 'index']);
 
 // Download and view Route
 Route::get('download/{tipe}/{filename}', [DownloadController::class, 'index']);
@@ -217,8 +200,6 @@ Route::get('/dokumen/{id}/download', [KontenDokumenController::class, 'download'
 Route::get('/dokumen/{id}/view', [KontenDokumenController::class, 'view']);
 Route::get('view/{filename}', [ViewController::class, 'index']);
 Route::get('view2/{filename}', [ViewController::class, 'index2']);
-Route::get('/mata-kuliah', [MataKuliahController::class, 'index']);
-Route::get('/mata-kuliah/{id}', [MataKuliahController::class, 'findbyid']);
 Route::get('/kalender', [KalenderController::class, 'index']);
 
 // Route Jumlah Mahasiswa
@@ -235,7 +216,7 @@ Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_progra
 
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
-
+    Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
     Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
@@ -270,15 +251,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('/discussionLike2/update/{id}', [DiscussionLike2Controller::class, 'update']);
 
     //DiscussionLike3
-    Route::post('/discussionLike3', [DiscussionLike3Controller::class, 'store']);
-    Route::put('/discussionLike3/update/{id}', [DiscussionLike3Controller::class, 'update']);
+    // Route::post('/discussionLike3', [DiscussionLike3Controller::class, 'store']);
+    // Route::put('/discussionLike3/update/{id}', [DiscussionLike3Controller::class, 'update']);
 
     //Route Profil
     Route::get('/profil', [ProfilController::class, 'index']);
     Route::post('/profil', [ProfilController::class, 'store']);
     Route::get('/profil/{id}', [ProfilController::class, 'show']);
     Route::get('/profil/{id}/view', [PofilController::class, 'view']);
-
     Route::put('/enroll/video/{id}', [UserVideoController::class, 'update']);
     Route::put('/enroll/dokumen/{id}', [UserDokumenController::class, 'update']);
     Route::get('/enroll', [EnrollStudiController::class, 'index']);

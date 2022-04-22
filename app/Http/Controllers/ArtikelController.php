@@ -36,7 +36,6 @@ class ArtikelController extends Controller
             'gambar' => 'required',
         ]);
 
-        $upload = $request->gambar;
         if (isset($request->gambar)) {
             $extention = $request->gambar->extension();
             $file_name = time() . '.' . $extention;

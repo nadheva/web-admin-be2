@@ -18,7 +18,7 @@ class ProfilController extends Controller
     public function index()
     {
         //
-        $profil = User::all();
+        $profil = User::get(['id', 'name', 'gambar', 'no_hp']);
         return response()->json([
             "error" => false,
             "message" => "Success",

@@ -31,6 +31,11 @@ class EnrollMataKuliah extends Model
         'nilai_akhir' => 'integer',
     ];
 
+    public function jadwal()
+    {
+        return $this->belongsToMany(Jadwal_kuliah::class, 'enroll_mata_kuliah', 'mata_kuliah_id', 'id');
+    }
+
     public function get_dokumen()
     {
     	return $this->hasMany(userDokumen::class);
