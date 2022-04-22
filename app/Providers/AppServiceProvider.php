@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Providers;
-use App\Models\Kelas;
-use App\Models\AksesKelas;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-// use App\Models\Sanctum\PersonalAccessToken;
-use Laravel\Sanctum\PersonalAccessToken;
-use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
         /**
          * Paginate a standard Laravel Collection.
          *
