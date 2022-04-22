@@ -43,6 +43,7 @@ class DiscussionForumController extends Controller
                             $ada1[] = [
                                 'id' => $replys2->id,
                                 'user_id' => $replys2->user->name,
+                                'avatar' => $replys2->user->gambar,
                                 'isi' => $replys2->isi,
                                 'like' => $like3,
                                 'discussion_reply_id' => $replys2->discussion_reply_id,
@@ -60,6 +61,7 @@ class DiscussionForumController extends Controller
                         $ada[] = [
                             'id' => $replys->id,
                             'user_id' => $replys->user->name,
+                            'avatar' => $replys->user->gambar,
                             'isi' => $replys->isi,
                             'like' => $like2,
                             'discussion_id' => $replys->discussion_id,
@@ -77,6 +79,7 @@ class DiscussionForumController extends Controller
                 $arr1[] = [
                     'id' => $diskusis->id,
                     'user_id' => $diskusis->user->name,
+                    'avatar' => $diskusis->user->gambar,
                     'mata_kuliah_id' => $diskusis->mata_kuliah_id,
                     'judul' => $diskusis->judul,
                     'isi' => $diskusis->isi,
@@ -247,6 +250,7 @@ class DiscussionForumController extends Controller
                             $ada1[] = [
                                 'id' => $replys2->id,
                                 'user_id' => $replys2->user->name,
+                                'avatar' => $replys2->user->gambar,
                                 'isi' => $replys2->isi,
                                 'like' => $like3,
                                 'discussion_reply_id' => $replys2->discussion_reply_id,
@@ -264,6 +268,7 @@ class DiscussionForumController extends Controller
                         $ada[] = [
                             'id' => $replys->id,
                             'user_id' => $replys->user->name,
+                            'avatar' => $replys->user->gambar,
                             'isi' => $replys->isi,
                             'like' => $like2,
                             'discussion_id' => $replys->discussion_id,
@@ -281,6 +286,7 @@ class DiscussionForumController extends Controller
                 $arr1[] = [
                     'id' => $diskusis->id,
                     'user_id' => $diskusis->user->name,
+                    'avatar' => $diskusis->user->gambar,
                     'mata_kuliah_id' => $diskusis->mata_kuliah_id,
                     'judul' => $diskusis->judul,
                     'isi' => $diskusis->isi,
