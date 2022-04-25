@@ -90,19 +90,19 @@ class EnrollStudiController extends Controller
 
             return response()->json($success);
         }
-        //sukses
+
         $filterCon2 = [
             ['user_id', '=', $user->id],
             ['kelas_id', '=', $kelas->id],
         ];
         
         $initEnrollStudi = EnrollStudi::where($filterCon2)->get()->first();
-
+// return $initEnrollStudi;
         if (is_null($initEnrollStudi)) {
             $taskInput      =       array(
                 'user_id'     =>      $user->id,
                 'kelas_id'   =>  $kelas->id,
-                'semester' => [(int)$request->semester],
+                'semester' => (int)$request->semester,
                 'isComplete'     =>   false,
             );
 
@@ -132,7 +132,7 @@ class EnrollStudiController extends Controller
 
             return response()->json($success);
         } else {
-            if (in_array($request->semester, $initEnrollStudi->semester)) {
+            if (in_array($request->semester, [$initEnrollStudi->semester])) {
                 $success['status']  =   'error';
                 $success['message'] =   "anda sudah terdaftar pada kelas " .
                     $initEnrollStudi->kelas->nama .
