@@ -8,7 +8,7 @@
         <div class="row px-xl-5 px-sm-4 px-3">
 
           <div class="card-body">
-            <form role="form text-left" action="{{route('updateAkseskelasDosen', $AksesKelas->id)}}" method="POST" enctype="multipart/form-data">
+            <form role="form text-left" action="{{route('akseskelasDosen.update', $AksesKelas->id)}}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PUT')
               <div class="mb-3">
