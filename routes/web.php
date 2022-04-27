@@ -234,7 +234,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/deleteDataMahasiswa/{id}', [DashboardController::class, 'deleteDataMahasiswa'])->name('deleteDataMahasiswa');
     Route::put('/warna-kalender/{id}', [DashboardController::class, 'warnaKalender'])->name('warnaKelender');
     Route::resource('akseskelasMahasiswa', AksesKelasMahasiswaController::class);
-    Route::resource('akseskelasDosen', AksesKelasDosenController::class)->except('edit', 'update');
+    // Route::resource('akseskelasDosen', AksesKelasDosenController::class)->except('edit', 'update');
+    Route::resource('akseskelasDosen', AksesKelasDosenController::class);
     Route::get('/editAksesKelasDosen/{id}', [AksesKelasDosenController::class, 'edit'])->name('editAksesKelasDosen');
     Route::put('/updateAksesKelasDosen/{id}', [AksesKelasDosenController::class, 'update'])->name('updateAksesKelasDosen');
     Route::delete('/destroyAksesKelasDosen/{id}', [AksesKelasDosenController::class, 'destroy'])->name('destroyAksesKelasDosen');

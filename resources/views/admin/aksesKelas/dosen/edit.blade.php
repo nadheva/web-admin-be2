@@ -14,7 +14,7 @@
               <div class="mb-3">
                 <label for="exampleFormControlSelect1">Mata Kuliah</label>
                 <select class="form-control" name="mata_kuliah_id" id="exampleFormControlSelect1">
-                @foreach ($matakul as $item)
+                @foreach ($matkul as $item)
                 <option value="{{$item->id}}" @if ($item->id == $AksesKelas->mata_kuliah_id)
                     selected
                 @endif>{{$item->judul}}</option>
