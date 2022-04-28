@@ -120,13 +120,8 @@ Route::resource('iklan', IklanController::class);
 Route::get('/job_kerja', [JobChannelController::class, 'job_kerja']);
 Route::get('/job_magang', [JobChannelController::class, 'job_magang']);
 Route::get('/job_project', [JobChannelController::class, 'job_project']);
-Route::get('/jobChannel', [JobChannelController::class, 'index']);
-Route::post('/jobChannel', [JobChannelController::class, 'store']);
-Route::get('/jobChannel/{id}', [JobChannelController::class, 'show']);
-Route::get('/jobChannel/{id}/download', [JobChannelController::class, 'download']);
 Route::get('/jobChannel/{id}/view', [JobChannelController::class, 'view']);
-
-
+Route::resource('/jobChannel', JobChannelController::class);
 
 //Route Quiz
 Route::get('/quiz', [QuizController::class, 'index']);
