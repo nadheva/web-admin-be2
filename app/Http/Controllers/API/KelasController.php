@@ -22,7 +22,7 @@ class KelasController extends Controller
         $que = $request->search;
         if ($que) {
             $kelas =  Kelas::where(strtolower('nama'), 'like', '%' . $que . '%')
-                ->orWhere(strtolower('deskripsi'), 'LIKE', '%' . $que . '%')->get(['id', 'nama', 'deskripsi']);
+                ->orWhere(strtolower('deskripsi'), 'LIKE', '%' . $que . '%')->all();
         } else {
             $kelas =  Kelas::get(['id', 'nama', 'deskripsi']);
         }
