@@ -24,7 +24,7 @@ class KelasController extends Controller
             $kelas =  Kelas::where(strtolower('nama'), 'like', '%' . $que . '%')
                 ->orWhere(strtolower('deskripsi'), 'LIKE', '%' . $que . '%')->all();
         } else {
-            $kelas =  Kelas::get(['id', 'nama', 'deskripsi']);
+            $kelas =  Kelas::all();
         }
         // return $kelas;
         return new KelasCollection($kelas->paginate(18));
