@@ -141,18 +141,12 @@ Route::get('/assignment/{id}/view', [AssignmentController::class, 'view']);
 Route::get('/assignment/{id}', [AssignmentController::class, 'show']);
 
 //Route Exam
-Route::get('/exam', [ExamController::class, 'index']);
-Route::post('/exam', [ExamController::class, 'store']);
 Route::get('/exam/{id}/download', [ExamController::class, 'download']);
 Route::get('/exam/{id}/view', [ExamController::class, 'view']);
-Route::get('/exam/{id}', [ExamController::class, 'show']);
+Route::resource('/exam', ExamController::class);
 
 //User Assignment
-Route::get('/userAssignment', [UserAssignmentController::class, 'index']);
-
-Route::get('/userAssignment/show/{id}', [UserAssignmentController::class, 'show']);
-
-
+Route::resource('/userAssignment', UserAssignmentController::class);
 
 //Leaderboard
 Route::get('/leaderboard', [LeaderboardController::class, 'index']);
