@@ -53,6 +53,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('featured', function($post){
             return $post->featured();
         });
-        View::share('AksesKelas', AksesKelas::all());
+        // View::share('AksesKelas', AksesKelas::all());
     }
 }
