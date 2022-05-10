@@ -7,7 +7,8 @@ use App\Models\DokumenKonsultasi;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 
 class DokumenKonsultasiController extends Controller
 {
@@ -24,8 +25,6 @@ class DokumenKonsultasiController extends Controller
             'status' => 'success',
             'data' => $dokumen
         ]);
-        $dokumen = DokumenKonsultasi::all();
-        return response()->json($dokumen);
     }
 
     /**
@@ -67,6 +66,7 @@ class DokumenKonsultasiController extends Controller
                 'success' => true, 
                 'message' => 'Dokumen berhasil ditambahkan',
                 'data' => [
+                    'id' => $dokumen->id,
                     'nama_dokumen' => $dokumen->nama_dokumen,
                     'prioritas' => $dokumen->prioritas,
                     'pesan' => $dokumen->pesan,
@@ -90,11 +90,29 @@ class DokumenKonsultasiController extends Controller
      * @param  \App\Models\DokumenKonsultasi  $dokumenKonsultasi
      * @return \Illuminate\Http\Response
      */
-    public function show(DokumenKonsultasi $dokumenKonsultasi)
+    public function show($id)
     {
         //
-        $dokumen = DokumenKonsultasi::find($dokumenKonsultasi->id);
-        return response()->json($dokumen);
+        $dokumen = DokumenKonsultasi::where('id', $id)->with('user')->get()[0];
+
+        if(!$dokumen){
+            return response()->json(['success' => false, 'message' => 'Dokumen tidak ditemukan']);
+        }
+
+        if(!File::exists($dokumen->file_dokumen)) {
+            return response()->json(['success' => false, 'message' => 'File dokumen tidak ditemukan']);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'id' => $dokumen->id,
+            'nama_dokumen' => $dokumen->nama_dokumen,
+            'prioritas' => $dokumen->prioritas,
+            'pesan' => $dokumen->pesan,
+            'file_dokumen' => URL::to('/').'/'.$dokumen->file_dokumen,
+            'email' => $dokumen->user->email,
+            'no_hp' => $dokumen->user->no_hp,
+        ]);
     }
 
     /**
@@ -119,6 +137,10 @@ class DokumenKonsultasiController extends Controller
     {
         //
         $dokumen = DokumenKonsultasi::find($dokumenKonsultasi->id);
+
+        if(!$dokumen){
+            return response()->json(['success' => false, 'message' => 'Dokumen tidak ditemukan']);
+        }
         
         if(File::exists($dokumen->file_dokumen)) {
             File::delete(public_path($dokumen->file_dokumen));

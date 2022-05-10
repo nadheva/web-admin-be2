@@ -12,14 +12,18 @@ class ExamController extends Controller
 {
     public function index(Request $request)
     {
-        // $user       =   Auth::user();
-        // $enrolls       =  Enrolls::where('user_id', $user->id)->get();
+        // dd($request->mata_kuliah);
         if($request->mata_kuliah){
             $mata_kuliah = Exam::where('mata_kuliah_id', $request->mata_kuliah)->get();
         }else{
             $mata_kuliah =  Exam::all();
         }
-        return new ExamCollection($mata_kuliah);
+
+        return response()->json([
+            'error' => false,
+            'message' => 'success',
+            'data' => $mata_kuliah,
+        ]);
        
     }
 
@@ -44,15 +48,22 @@ class ExamController extends Controller
     public function store(Request $request)
     {
             //store file into document folder
-            $extention = $request->exam->extension();
+            if(!$request->file){
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Harap masukan file'
+                ]);
+            }
+            
+            $extention = $request->file->extension();
             $file_name = time().'.'.$extention;
             $txt = 'storage/exam/'. $file_name;
-            $request->exam->storeAs('public/exam', $file_name);
+            $request->file->storeAs('public/exam', $file_name);
 
             $exam = new Exam();
             $exam->judul = $request->judul;
             $exam->deskripsi = $request->deskripsi;
-            $exam->exam = $txt;
+            $exam->file = $txt;
             $exam->jenis =  $request->jenis;
             $exam->deadline =  $request->deadline;
             $exam->mata_kuliah_id = $request->mata_kuliah_id;
