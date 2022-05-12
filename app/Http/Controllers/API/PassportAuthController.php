@@ -142,7 +142,6 @@ class PassportAuthController extends Controller
                 'message' => "Success",
                 'data' => $newUser,
             ], 200);
-            
         } catch (\Throwable $e) {
             switch ($e->getMessage()) {
                 case 'The email address is already in use by another account.':
@@ -190,7 +189,12 @@ class PassportAuthController extends Controller
     public function userDetail()
     {
         $user       =       Auth::user();
-        return new UserResource($user);
+        $datamhs = Administration::join('users','users.id','data_mahasiswa.user_id')->where('user_id', $user->id)->first();
+        // $array = $user->toArray;
+        // array_push($array, $datamhs);
+        // $jsonData = json_encode($array);
+        // return $datamhs;
+        return new UserResource( $datamhs);
     }
 
     public function updateuserDetail(Request $request)

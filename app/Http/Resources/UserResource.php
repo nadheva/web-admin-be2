@@ -14,6 +14,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        // return $request;
         $host = $request->getSchemeAndHttpHost();
         return [
             'id' => $this->id,
@@ -22,6 +23,7 @@ class UserResource extends JsonResource
             'no_hp' => $this->no_hp,
             'gambar' => $host.'/'.$this->gambar,
             'role' => $this->role,
+            'program_id' => $this->program_id,
           ];     
     }
     public function with($request)
