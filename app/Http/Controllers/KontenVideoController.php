@@ -58,9 +58,14 @@ class KontenVideoController extends Controller
     }
 
     public function getYoutubeDuration($vid) {
-        //$vid - YouTube video ID. F.e. LWn28sKDWXo
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );  
         $YOUR_KEY = env('GOOGLE_KEY');
-        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$vid."&part=contentDetails,statistics&key=$YOUR_KEY");
+        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$vid."&part=contentDetails,statistics&key=$YOUR_KEY", false, stream_context_create($arrContextOptions));
         $VidDuration = json_decode($videoDetails, true);
         dd($VidDuration);  
         foreach ($VidDuration['items'] as $vidTime)
