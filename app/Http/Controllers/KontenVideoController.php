@@ -60,14 +60,16 @@ class KontenVideoController extends Controller
     public function getYoutubeDuration($vid) {
         //$vid - YouTube video ID. F.e. LWn28sKDWXo
         $YOUR_KEY = env('GOOGLE_KEY');
-        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$vid."&part=contentDetails,statistics&key=$YOUR_KEY");
+        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$vid."&part=contentDetails,statistics&key=AIzaSyARrJeLMAYdy6opo86g4sJbA8kW7xW32b4");
         $VidDuration = json_decode($videoDetails, true);
+        // dd($VidDuration);  
         foreach ($VidDuration['items'] as $vidTime)
         {
           $VidDuration= $vidTime['contentDetails']['duration'];
         }
         $pattern='/PT(\d+)M(\d+)S/';
         preg_match($pattern,$VidDuration,$matches);
+       dd($matches);
         $seconds=$matches[1]*60+$matches[2];
         return $seconds;
     }
