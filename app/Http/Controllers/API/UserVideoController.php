@@ -61,7 +61,7 @@ class UserVideoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $user       =       Auth::user();
         $validator      =            Validator::make($request->all(),
@@ -76,11 +76,11 @@ class UserVideoController extends Controller
             'isComplete'      =>      $request->isComplete,  
         );
 
-        $video      =   UserVideo::where('id', $request->id)->where('user_id', $user->id)->update($inputData);
+        $video      =   UserVideo::where('id', $id)->where('user_id', $user->id)->update($inputData);
         
         if($video == 1) {
             $success['error']      =       false;
-            $success['message']     =       "Progres video terlah diperbaharui menjadi ". $request->progress ."%";
+            $success['message']     =       "Progres video telah diperbaharui menjadi ". $request->progress ."%";
         }
 
         else {
