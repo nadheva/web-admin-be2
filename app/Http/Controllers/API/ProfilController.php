@@ -34,42 +34,7 @@ class ProfilController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
-              [
-                'name' => 'required',
-                'no_hp' => 'required',
-                'gambar' => 'required|mimes:jpg,png|max:2048',
-             ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
-        }
-
-        if ($gambar = $request->file('gambar')) {
-
-            //store file into document folder
-            $extention = $request->gambar->extension();
-            $file_name = time() . '.' . $extention;
-            $txt = 'storage/images/'. $file_name;
-            $request->gambar->storeAs('public/images', $file_name);
-
-            //store your file into database
-            $profil = new User();
-            $profil->name = $request->name;
-            $profil->no_hp = $request->no_hp;
-            $profil->gambar = $txt;
-
-            $profil->save();
-
-            return response()->json([
-                "error" => false,
-                "success" => true,
-                "message" => "File successfully uploaded",
-                "file" => $file_name
-            ]);
-
-        } else {
-
-        }
+        
     }
 
     /**
@@ -81,7 +46,7 @@ class ProfilController extends Controller
     public function show($id)
     {
         //
-        return Profil::find($id);
+        return User::find($id);
     }
 
     /**

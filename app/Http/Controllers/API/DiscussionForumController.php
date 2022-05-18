@@ -123,7 +123,7 @@ class DiscussionForumController extends Controller
     {
         $user   =   Auth::user();
         $input = new DiscussionForum();
-        if ($files = $request->file('gambar')) {
+        if ($request->file('gambar')) {
 
             //store file into document folder
             $extention = $request->gambar->extension();
@@ -132,8 +132,6 @@ class DiscussionForumController extends Controller
             $request->gambar->storeAs('public/images', $file_name);
             $input->gambar = $txt;
         }
-        // $discussionForum = new DiscussionForum();
-        // $user = Auth::user();
 
         $input->judul = $request->judul;
         $input->isi = $request->isi;
@@ -144,7 +142,8 @@ class DiscussionForumController extends Controller
         // return ResponseFormatter::success(null, "Discussion Forum berhasil ditambahkan!");
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $input,
         ]);
     }
 
@@ -189,14 +188,14 @@ class DiscussionForumController extends Controller
             $txt = 'storage/images/' . $file_name;
             $request->gambar->storeAs('public/images', $file_name);
             $DiscussionForum->gambar = $txt;
-        } else {
         }
 
         $DiscussionForum->save();
 
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $DiscussionForum,
         ]);
         // return ResponseFormatter::success(null, "Discussion forum berhasil diedit!");
     }

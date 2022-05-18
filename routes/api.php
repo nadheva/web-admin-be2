@@ -66,7 +66,8 @@ use Illuminate\Support\Facades\Route;
 */ 
 Route::resource('/jadwal-matkul', Jadwal_kuliahController::class);
 Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
-Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
+Route::post('/administrasi', [AdministrationController::class, 'store']);
+Route::post('/administrasi/{id}', [AdministrationController::class, 'update']); // Update adminstrasi
 // Public routes
 Route::post('/register', [PassportAuthController::class, 'register']);
 Route::post('/registration', [PassportAuthController::class, 'apiRegist']);
@@ -153,9 +154,8 @@ Route::get('/leaderboard', [LeaderboardController::class, 'index']);
 
 //DiscussionForum
 Route::get('/discussionForum', [DiscussionForumController::class, 'index']);
-Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
-Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
-Route::get('discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
+Route::get('/discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
+
 //DiscussionReply
 Route::get('/discussionReply/{id}', [DiscussionReplyController::class, 'index']);
 Route::delete('/discussionReply/destroy/{id}', [DiscussionReplyController::class, 'destroy']);
@@ -177,8 +177,8 @@ Route::delete('/discussionLike2/destroy/{id}', [DiscussionLike2Controller::class
 // Route::delete('/discussionLike3/destroy/{id}', [DiscussionLike3Controller::class, 'destroy']);
 
 //Route Assignment Pilgan
-Route::get('assignmentPilgan', [AssignmentPilganController::class, 'index']);
-Route::get('assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganController::class, 'show']);
+Route::get('/assignmentPilgan', [AssignmentPilganController::class, 'index']);
+Route::get('/assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganController::class, 'show']);
 
 //Route Assignment Text
 // Route::get('/assignmentText', [AssignmentFileController::class, 'index']);
@@ -187,8 +187,8 @@ Route::get('assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganContro
 Route::get('download/{tipe}/{filename}', [DownloadController::class, 'index']);
 Route::get('/dokumen/{id}/download', [KontenDokumenController::class, 'download']);
 Route::get('/dokumen/{id}/view', [KontenDokumenController::class, 'view']);
-Route::get('view/{filename}', [ViewController::class, 'index']);
-Route::get('view2/{filename}', [ViewController::class, 'index2']);
+Route::get('/view/{filename}', [ViewController::class, 'index']);
+Route::get('/view2/{filename}', [ViewController::class, 'index2']);
 Route::get('/kalender', [KalenderController::class, 'index']);
 
 // Route Jumlah Mahasiswa
@@ -222,6 +222,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     //DiscussionForum
     Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
     Route::put('/discussionForum/update/{id}', [DiscussionForumController::class, 'update']);
+    Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
 
     //DiscussionReply
     Route::post('/discussionReply', [DiscussionReplyController::class, 'store']);
@@ -245,12 +246,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //Route Profil
     Route::get('/profil', [ProfilController::class, 'index']);
-    Route::post('/profil', [ProfilController::class, 'store']);
-    Route::get('/profil/{id}', [ProfilController::class, 'show']);
-    Route::get('/profil/{id}/view', [PofilController::class, 'view']);
+    Route::delete('/profil/{id}', [ProfilController::class, 'destroy']);
+    Route::get('/profil/{id}/view', [ProfilController::class, 'show']);
+
     Route::put('/enroll/video/{id}', [UserVideoController::class, 'update']);
     Route::put('/enroll/dokumen/{id}', [UserDokumenController::class, 'update']);
+
     Route::get('/enroll', [EnrollStudiController::class, 'index']);
+    
     Route::get('/enroll/mata-kuliah', [EnrollMataKuliahController::class, 'index']);
     Route::get('enroll/video', [EnrollMataKuliahController::class, 'enrolled_video']);
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);
