@@ -48,8 +48,8 @@ use App\Http\Controllers\API\GuideController;
 
 use App\Http\Controllers\API\ProgramController;
 use App\Http\Controllers\API\DataDosenController;
+use App\Http\Controllers\API\UjiankuliahController;
 
-use App\Models\DiscussionForum;
 use App\Models\DokumenKonsultasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -206,6 +206,7 @@ Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_progra
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
+    Route::resource('/ujian-kuliah', UjiankuliahController::class);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
     Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
