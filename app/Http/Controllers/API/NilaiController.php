@@ -22,15 +22,14 @@ class NilaiController extends Controller
     {
         $user = Auth::user();
         $matkul = MataKuliah::find($id);
-        $count = UserAssignment::where('user_id', $user->id)->where('mata_kuliah_id',$id)->count();
-        $grade = UserAssignment::where('user_id', $user->id)->where('mata_kuliah_id',$id)->sum('grade');
-        if ($count != NULL){
+        $count = UserAssignment::where('user_id', $user->id)->where('mata_kuliah_id', $id)->count();
+        $grade = UserAssignment::where('user_id', $user->id)->where('mata_kuliah_id', $id)->sum('grade');
+        if ($count != NULL) {
             $total = $grade / $count;
-        }
-        else {
+        } else {
             $total = NULL;
         }
-        
+
         $data = [
             'mata_kuliah' => $matkul->judul,
             'total' => $total
@@ -47,19 +46,18 @@ class NilaiController extends Controller
     {
         $user = Auth::user();
         $matkul = MataKuliah::find($id);
-        $count = NilaiQuiz::where('user_id', $user->id)->where('mata_kuliah_id',$id)->count();
-        $grade = NilaiQuiz::where('user_id', $user->id)->where('mata_kuliah_id',$id)->sum('grade');
-        if ($count != NULL){
+        $count = NilaiQuiz::where('user_id', $user->id)->where('mata_kuliah_id', $id)->count();
+        $grade = NilaiQuiz::where('user_id', $user->id)->where('mata_kuliah_id', $id)->sum('grade');
+        if ($count != NULL) {
             $total = $grade / $count;
-        }
-        else {
+        } else {
             $total = NULL;
         }
         $data = [
             'mata_kuliah' => $matkul->judul,
             'total' => $total
         ];
-        
+
         return response()->json([
             "error" => false,
             "message" => "success",
@@ -83,13 +81,12 @@ class NilaiController extends Controller
             "message" => "success",
             "data" => $nilai
         ]);
-
     }
 
     public function gradeUts($id)
     {
         $user = Auth::user();
-        $uts = UserExam::select('mata_kuliah.id','mata_kuliah.judul','user_exam.*')->join('mata_kuliah','user_exam.mata_kuliah_id','mata_kuliah.id')->where('user_id', $user->id)->where('tipe', 'uts')->where('mata_kuliah_id',$id)->get();
+        $uts = UserExam::select('mata_kuliah.id', 'mata_kuliah.judul', 'user_exam.*')->join('mata_kuliah', 'user_exam.mata_kuliah_id', 'mata_kuliah.id')->where('user_id', $user->id)->where('tipe', 'uts')->where('mata_kuliah_id', $id)->get();
         return response()->json([
             "error" => false,
             "message" => "success",
@@ -100,7 +97,7 @@ class NilaiController extends Controller
     public function gradeUas($id)
     {
         $user = Auth::user();
-        $uas = UserExam::select('mata_kuliah.id','mata_kuliah.judul','user_exam.*')->join('mata_kuliah','user_exam.mata_kuliah_id','mata_kuliah.id')->where('user_id', $user->id)->where('tipe', 'uas')->where('mata_kuliah_id',$id)->get();
+        $uas = UserExam::select('mata_kuliah.id', 'mata_kuliah.judul', 'user_exam.*')->join('mata_kuliah', 'user_exam.mata_kuliah_id', 'mata_kuliah.id')->where('user_id', $user->id)->where('tipe', 'uas')->where('mata_kuliah_id', $id)->get();
         return response()->json([
             "error" => false,
             "message" => "success",
@@ -112,38 +109,36 @@ class NilaiController extends Controller
     {
         $user = Auth::user();
         $matakuliah = MataKuliah::find($matkul);
-        $UserAssignment = UserAssignment::where('user_id',$user->id)->where('mata_kuliah_id',$matkul)->get();
-        $UserExam = UserExam::where('user_id',$user->id)->where('mata_kuliah_id',$matkul)->get();
-        $NilaiQuiz = NilaiQuiz::where('user_id',$user->id)->where('mata_kuliah_id',$matkul)->get();
+        $UserAssignment = UserAssignment::where('user_id', $user->id)->where('mata_kuliah_id', $matkul)->get();
+        $UserExam = UserExam::where('user_id', $user->id)->where('mata_kuliah_id', $matkul)->get();
+        $NilaiQuiz = NilaiQuiz::where('user_id', $user->id)->where('mata_kuliah_id', $matkul)->get();
 
-        $nilaiuts = $UserExam->where('tipe','uts')->first();
-        $nilaiuas = $UserExam->where('tipe','uas')->first();
+        $nilaiuts = $UserExam->where('tipe', 'uts')->first();
+        $nilaiuas = $UserExam->where('tipe', 'uas')->first();
 
-        $dataquiz = Quiz::where('mata_kuliah_id',$matkul)->count();
+        $dataquiz = Quiz::where('mata_kuliah_id', $matkul)->count();
         $jumlahquiz = $NilaiQuiz->sum('grade');
-        $avgquiz = $jumlahquiz/$dataquiz;
+        $avgquiz = $jumlahquiz / $dataquiz;
 
-        $dataassignment = Assignment::where('mata_kuliah_id',$matkul)->count();
+        $dataassignment = Assignment::where('mata_kuliah_id', $matkul)->count();
         $jumlahassignment = $UserAssignment->sum('grade');
-        $avgassignment = $jumlahassignment/$dataassignment;  
+        $avgassignment = $jumlahassignment / $dataassignment;
 
         $avgtugas1 = $avgassignment * 25 / 100;
         $avgquiz1 = $avgquiz * 10 / 100;
-        if ($nilaiuts->grade != NULL){
+        if ($nilaiuts->grade != NULL) {
             $avguts1 = $nilaiuts->grade * 30 / 100;
-        }
-        else{
+        } else {
             $avguts1 = 0;
         }
-        if ($nilaiuas->grade != NULL){
+        if ($nilaiuas->grade != NULL) {
             $avguas1 = $nilaiuas->grade * 35 / 100;
-        }
-        else{
+        } else {
             $avguas1 = 0;
         }
 
         $nilaiakhir = $avgtugas1 + $avgquiz1 + $avguts1 + $avguas1;
-        
+
         $variabel = Helper::variabel_nilai($nilaiakhir);
 
         return response()->json([

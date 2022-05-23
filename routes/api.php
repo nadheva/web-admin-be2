@@ -63,7 +63,8 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/ 
+*/
+
 Route::resource('/jadwal-matkul', Jadwal_kuliahController::class);
 Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
 Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
@@ -79,7 +80,7 @@ Route::resource('/program', ProgramController::class);
 Route::resource('data-dosen', DataDosenController::class);
 
 // Route progam studi
-Route::get('/kelas/search/{name}', [KelasController::class, 'search']); 
+Route::get('/kelas/search/{name}', [KelasController::class, 'search']);
 Route::get('/kelas/{id}/video', [KelasController::class, 'kelas_video']); // Bug
 Route::get('/kelas/{id}/dokumen', [KelasController::class, 'kelas_dokumen']); // Bug
 Route::post('/kelas/{id}/video', [KontenVideoController::class, 'store']); // Bug
@@ -219,8 +220,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
     Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
-    Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
-    Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
     //User Job Channel
     Route::post('/userjobchannel', [UserJobChannelController::class, 'store']);
 
@@ -259,30 +258,42 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/profil', [ProfilController::class, 'store']);
     Route::get('/profil/{id}', [ProfilController::class, 'show']);
     Route::get('/profil/{id}/view', [PofilController::class, 'view']);
+    //Route Enroll Video
     Route::put('/enroll/video/{id}', [UserVideoController::class, 'update']);
+    //Route Enroll Dokumen
     Route::put('/enroll/dokumen/{id}', [UserDokumenController::class, 'update']);
-    Route::get('/enroll', [EnrollStudiController::class, 'index']);
+
+    //Route Enroll Mata Kuliah
     Route::get('/enroll/mata-kuliah', [EnrollMataKuliahController::class, 'index']);
     Route::get('enroll/video', [EnrollMataKuliahController::class, 'enrolled_video']);
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);
     Route::get('/enroll/{id}', [EnrollMataKuliahController::class, 'findbyid']);
-    Route::post('/enroll', [EnrollStudiController::class, 'store']);
 
+    //Route Enroll Studi
+    Route::get('/enroll', [EnrollStudiController::class, 'index']);
+    Route::post('/enroll', [EnrollStudiController::class, 'store']);
     Route::delete('/unenroll/{id}', [EnrollStudiController::class, 'unenrolls']);
     Route::delete('/unenroll', [EnrollStudiController::class, 'unenrollsbykelasid']);
+
+    //Route Enroll Pertemuan
     Route::get('/pertemuan', [PertemuanController::class, 'index']);
     Route::get('/pertemuan/{id}', [PertemuanController::class, 'findbyid']);
     Route::get('/pertemuan_kuliah/{id}', [PertemuanController::class, 'pertemuan_matkul']);
+
+    //Route User Detail
     Route::get('/user-details', [PassportAuthController::class, 'userDetail']);
     Route::put('/user-details', [PassportAuthController::class, 'updateuserDetail']);
+
+    //Route Kelas
     Route::post('/kelas', [KelasController::class, 'store']);
     Route::put('/kelas/{id}', [KelasController::class, 'update']);
     Route::delete('/kelas/{id}', [KelasController::class, 'destroy']);
-    Route::post('/logout', [AuthController::class, 'logout']);
 
+    //Route Konten Dokumen
     Route::put('/dokumen/{id}', [KontenDokumenController::class, 'update']);
     Route::delete('/dokumen/{id}', [KontenDokumenController::class, 'destroy']);
 
+    //Route Konten Video
     Route::put('/video/{id}', [KontenVideoController::class, 'update']);
     Route::delete('/video/{id}', [KontenVideoController::class, 'destroy']);
 
@@ -308,7 +319,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user-quiz', [UserQuizController::class, 'store']);
     Route::post('/nilai-quiz', [UserQuizController::class, 'nilaiQuiz']);
 
+    //Route Nilai Akhir
     Route::get('nilai-akhir/{matkul}', [NilaiController::class, 'nilaiAkhir']);
+
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 

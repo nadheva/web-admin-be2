@@ -17,7 +17,7 @@ class Kelas extends Model
         'deskripsi',
         'sebelum',
         'program_id'
-    ];  
+    ];
 
     protected $primaryKey = 'id';
     protected $casts = [
@@ -36,8 +36,8 @@ class Kelas extends Model
 
     public function mata_kuliah()
     {
-    	return $this->hasMany(MataKuliah::class);
-    }    
+        return $this->hasMany(MataKuliah::class);
+    }
 
     public function get_video()
     {
@@ -46,8 +46,8 @@ class Kelas extends Model
 
     public function get_content()
     {
-    	return $this->hasMany(Content::class);
-    }    
+        return $this->hasMany(Content::class);
+    }
 
     public function get_file()
     {
@@ -66,6 +66,6 @@ class Kelas extends Model
 
     public function AksesKelas()
     {
-        return $this->belongsToMany(User::class,'akses_kelas','user_id','kelas_id');
+        return $this->belongsToMany(User::class, 'akses_kelas', 'user_id', 'kelas_id');
     }
 }

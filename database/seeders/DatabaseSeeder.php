@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
             // EnrollsSeeder::class,
             KontenDokumenSeeder::class,
             QuestionSeeder::class,
-            DataDosenSeeder::class
+            DataDosenSeeder::class,
+            EnrollStudiSeeder::class,
+            EnrollMataKuliahSeeder::class
         ]);
     }
 }
