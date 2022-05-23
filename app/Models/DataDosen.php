@@ -26,4 +26,8 @@ class DataDosen extends Model
 
     protected $primaryKey = 'id';
 
+    // public function ()
+    // {
+    // }
+
 }

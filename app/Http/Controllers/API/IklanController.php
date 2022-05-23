@@ -6,8 +6,8 @@ use App\Models\Iklan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use App\Models\Kelas;
-use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 
 class IklanController extends Controller
 {
@@ -45,24 +45,25 @@ class IklanController extends Controller
             return response()->json(['error'=>$validator->errors()], 401);
         }
 
-        if ($files = $request->file('gambar')) {
+        if ($request->file('gambar')) {
 
             //store file into document folder
             $extention = $request->gambar->extension();
             $file_name = time().'.'.$extention;
-            $txt = 'storage/images/'. $file_name;
-            $request->gambar->storeAs('public/images', $file_name);
+            $path = 'storage/iklan/'.$file_name;
+            $request->gambar->storeAs('public/iklan', $file_name);
 
             //store your file into database
             $iklan = new Iklan();
-            $iklan->gambar = $file_name;
+            $iklan->gambar = $path;
             $iklan->save();
 
             return response()->json([
                 "error" => false,
                 "success" => true,
+                'id' => $iklan->id,
                 "message" => "Images successfully uploaded",
-                "file" => $txt
+                "file" => URL::to('/') . $path
             ]);
             // return ResponseFormatter::success(["file" => $txt], "Iklan berhasil ditambahkan!");
 
@@ -78,9 +79,24 @@ class IklanController extends Controller
      */
     public function show($id)
     {
-        //
-        return Iklan::find($id);
-        // return ResponseFormatter::success($iklan);
+        $iklan = Iklan::find($id);
+
+        if(!$iklan) {
+            return response()->json([
+                "error" => true,
+                "message" => "Iklan tidak ditemukan!"
+            ], 404);
+        }
+
+        if(!File::exists($iklan->gambar)) {
+            return response()->json([
+                "error" => true,
+                "message" => "Gambar iklan tidak ditemukan!"
+            ], 404);
+        }
+
+        $url = URL::to('/').'/'.$iklan->gambar;
+        return redirect($url);
     }
 
     /**
@@ -92,11 +108,6 @@ class IklanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $iklan = Iklan::find($id);
-        $iklan ->update($request->all());
-        return $iklan;
-        // return ResponseFormatter::success($iklan, "Iklan berhasil diedit!");
     }
 
     /**
@@ -107,25 +118,22 @@ class IklanController extends Controller
      */
     public function destroy($id)
     {
-        //
-        return Iklan::destroy($id);
-        // return ResponseFormatter::success(null, "Iklan berhasil dihapus!");
-    }
-
-    public function download($id)
-    {
         $iklan = Iklan::find($id);
-        $lst = explode('/', $iklan->gambar);
-        $txt = 'api/download_images/'.$lst[2];
-        return redirect($txt);
-    }
+        if(!$iklan) {
+            return response()->json([
+                "error" => true,
+                "message" => "Iklan tidak ditemukan!"
+            ], 404);
+        }
 
-    public function view($id)
-    {
-        $iklan = Iklan::find($id);
-        $lst = explode('/', $iklan->gambar);
-        $txt = $iklan->gambar;
-        print($txt);
-        return redirect($txt);
+        if(File::exists($iklan->gambar)) {
+            File::delete(public_path($iklan->gambar));
+        }
+        $iklan->delete();
+        return response()->json([
+            "error" => false,
+            "success" => true,
+            "message" => "Iklan berhasil dihapus!"
+        ]);
     }
 }

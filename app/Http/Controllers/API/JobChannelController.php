@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\JobChannel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 
 class JobChannelController extends Controller
 {
@@ -71,12 +72,12 @@ class JobChannelController extends Controller
             return response()->json(['error'=>$validator->errors()], 401);
         }
 
-        if ($files = $request->file('foto')) {
+        if ($request->file('foto')) {
 
             //store file into document folder
             $extention = $request->foto->extension();
             $file_name = time().'.'.$extention;
-            $txt = 'storage/job-channel/'. $file_name;
+            $path = 'storage/job-channel/'. $file_name;
             $request->foto->storeAs('public/job-channel', $file_name);
 
             //store your file into database
@@ -89,14 +90,14 @@ class JobChannelController extends Controller
             $jobChannel->requirement = $request->requirement;
             $jobChannel->job_desk = $request->job_desk;
             $jobChannel->alamat = $request->alamat;
-            $jobChannel->foto = $file_name;
+            $jobChannel->foto = $path;
             $jobChannel->save();
 
             return response()->json([
                 "error" => false,
                 "success" => true,
                 "message" => "Images successfully uploaded",
-                "file" => $txt
+                "file" => $path
             ]);
             // return ResponseFormatter::success(["file" => $txt], "Job channel berhasil ditambahkan");
 
@@ -113,7 +114,19 @@ class JobChannelController extends Controller
     public function show($id)
     {
         //
-        return JobChannel::find($id);
+        $job = JobChannel::find($id);
+        if(!$job){
+            return response()->json([
+                "error" => true,
+                "message" => "Data job tidak ditemukan"
+            ], 404);
+        }
+
+        return response()->json([
+            "error" => false,
+            "message" => "success",
+            "data" => $job
+        ], 200);
         // return ResponseFormatter::success($jobChannel);
     }
 
@@ -128,9 +141,19 @@ class JobChannelController extends Controller
     {
         //
         $jobChannel = JobChannel::find($id);
-        $jobChannel ->update($request->all());
-        return $jobChannel;
-        // return ResponseFormatter::success($jobChannel, "Job channel berhasil diedit");
+        if(!$jobChannel){
+            return response()->json([
+                "error" => true,
+                "message" => "Data job tidak ditemukan"
+            ], 404);
+        }
+
+        $jobChannel->update($request->all());
+        return response()->json([
+            "error" => false,
+            "message" => "success",
+            "data" => $jobChannel
+        ], 200);
     }
 
     /**
@@ -141,26 +164,45 @@ class JobChannelController extends Controller
      */
     public function destroy($id)
     {
-        //
-        return JobChannel::destroy($id);
-    }
-
-    public function download($id)
-    {
         $jobChannel = JobChannel::find($id);
-        $lst = explode('/', $jobChannel->foto);
-        $txt = 'api/view2/'.$lst[2];
-        return redirect($txt);
+        if(!$jobChannel){
+            return response()->json([
+                "error" => true,
+                "message" => "Data job tidak ditemukan"
+            ], 404);
+        }
+
+        if(File::exists($jobChannel->foto)){
+            File::delete($jobChannel->foto);
+        }
+
+        $jobChannel->delete();
+        return response()->json([
+            "error" => false,
+            "message" => "Job berhasil dihapus!"
+        ], 200);
     }
 
     public function view($id)
     {
         $jobChannel = JobChannel::find($id);
-        $lst = explode('/', $jobChannel->foto);
-        //$txt = 'api/view2/'.$lst[0];
-        $filename = $lst[2];
-        $txt = '/storage/job-channel/'. $filename;
-        return redirect($txt);
+
+        if(!$jobChannel){
+            return response()->json([
+                "error" => true,
+                "message" => "Data job tidak ditemukan"
+            ], 404);
+        }
+
+        if(!File::exists($jobChannel->foto)){
+            return response()->json([
+                "error" => true,
+                "message" => "Foto Job tidak ditemukan!"
+            ], 404);
+        }
+
+        $foto = URL::to('/').'/'.$jobChannel->foto;
+        return redirect($foto);
     }
 
 

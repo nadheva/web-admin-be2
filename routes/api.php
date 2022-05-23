@@ -48,8 +48,8 @@ use App\Http\Controllers\API\GuideController;
 
 use App\Http\Controllers\API\ProgramController;
 use App\Http\Controllers\API\DataDosenController;
+use App\Http\Controllers\API\UjiankuliahController;
 
-use App\Models\DiscussionForum;
 use App\Models\DokumenKonsultasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,7 +67,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/jadwal-matkul', Jadwal_kuliahController::class);
 Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
-Route::put('/administrasi/{id}', [AdministrationController::class, 'update']);
+Route::post('/administrasi', [AdministrationController::class, 'store']);
+Route::post('/administrasi/{id}', [AdministrationController::class, 'update']); // Update adminstrasi
 // Public routes
 Route::post('/register', [PassportAuthController::class, 'register']);
 Route::post('/registration', [PassportAuthController::class, 'apiRegist']);
@@ -121,13 +122,8 @@ Route::resource('iklan', IklanController::class);
 Route::get('/job_kerja', [JobChannelController::class, 'job_kerja']);
 Route::get('/job_magang', [JobChannelController::class, 'job_magang']);
 Route::get('/job_project', [JobChannelController::class, 'job_project']);
-Route::get('/jobChannel', [JobChannelController::class, 'index']);
-Route::post('/jobChannel', [JobChannelController::class, 'store']);
-Route::get('/jobChannel/{id}', [JobChannelController::class, 'show']);
-Route::get('/jobChannel/{id}/download', [JobChannelController::class, 'download']);
 Route::get('/jobChannel/{id}/view', [JobChannelController::class, 'view']);
-
-
+Route::resource('/jobChannel', JobChannelController::class);
 
 //Route Quiz
 Route::get('/quiz', [QuizController::class, 'index']);
@@ -147,27 +143,20 @@ Route::get('/assignment/{id}/view', [AssignmentController::class, 'view']);
 Route::get('/assignment/{id}', [AssignmentController::class, 'show']);
 
 //Route Exam
-Route::get('/exam', [ExamController::class, 'index']);
-Route::post('/exam', [ExamController::class, 'store']);
 Route::get('/exam/{id}/download', [ExamController::class, 'download']);
 Route::get('/exam/{id}/view', [ExamController::class, 'view']);
-Route::get('/exam/{id}', [ExamController::class, 'show']);
+Route::resource('/exam', ExamController::class);
 
 //User Assignment
-Route::get('/userAssignment', [UserAssignmentController::class, 'index']);
-
-Route::get('/userAssignment/show/{id}', [UserAssignmentController::class, 'show']);
-
-
+Route::resource('/userAssignment', UserAssignmentController::class);
 
 //Leaderboard
 Route::get('/leaderboard', [LeaderboardController::class, 'index']);
 
 //DiscussionForum
 Route::get('/discussionForum', [DiscussionForumController::class, 'index']);
-Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
-Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
-Route::get('discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
+Route::get('/discussionForumMatkul/{id}', [DiscussionForumController::class, 'showByMatkul']);
+
 //DiscussionReply
 Route::get('/discussionReply/{id}', [DiscussionReplyController::class, 'index']);
 Route::delete('/discussionReply/destroy/{id}', [DiscussionReplyController::class, 'destroy']);
@@ -189,8 +178,8 @@ Route::delete('/discussionLike2/destroy/{id}', [DiscussionLike2Controller::class
 // Route::delete('/discussionLike3/destroy/{id}', [DiscussionLike3Controller::class, 'destroy']);
 
 //Route Assignment Pilgan
-Route::get('assignmentPilgan', [AssignmentPilganController::class, 'index']);
-Route::get('assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganController::class, 'show']);
+Route::get('/assignmentPilgan', [AssignmentPilganController::class, 'index']);
+Route::get('/assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganController::class, 'show']);
 
 //Route Assignment Text
 // Route::get('/assignmentText', [AssignmentFileController::class, 'index']);
@@ -199,8 +188,8 @@ Route::get('assignmentPilgan/{mata_kuliah}/{pertemuan}', [AssignmentPilganContro
 Route::get('download/{tipe}/{filename}', [DownloadController::class, 'index']);
 Route::get('/dokumen/{id}/download', [KontenDokumenController::class, 'download']);
 Route::get('/dokumen/{id}/view', [KontenDokumenController::class, 'view']);
-Route::get('view/{filename}', [ViewController::class, 'index']);
-Route::get('view2/{filename}', [ViewController::class, 'index2']);
+Route::get('/view/{filename}', [ViewController::class, 'index']);
+Route::get('/view2/{filename}', [ViewController::class, 'index2']);
 Route::get('/kalender', [KalenderController::class, 'index']);
 
 // Route Jumlah Mahasiswa
@@ -218,6 +207,7 @@ Route::get('/enroll/program/{id}', [EnrollStudiController::class, 'enroll_progra
 // Protected routes
 Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('/dokumen-konsultasi', DokumenKonsultasiController::class);
+    Route::resource('/ujian-kuliah', UjiankuliahController::class);
     Route::get('/getAdministrasi', [AdministrationController::class, 'getAdministrasi'])->name('getAdministrasi');
     Route::get('/sertifikat', [SertifikatController::class, 'sertifikat']);
     //User Job Channel
@@ -232,6 +222,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     //DiscussionForum
     Route::post('/discussionForum', [DiscussionForumController::class, 'store']);
     Route::put('/discussionForum/update/{id}', [DiscussionForumController::class, 'update']);
+    Route::delete('/discussionForum/destroy/{id}', [DiscussionForumController::class, 'destroy']);
 
     //DiscussionReply
     Route::post('/discussionReply', [DiscussionReplyController::class, 'store']);
@@ -255,15 +246,15 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //Route Profil
     Route::get('/profil', [ProfilController::class, 'index']);
-    Route::post('/profil', [ProfilController::class, 'store']);
-    Route::get('/profil/{id}', [ProfilController::class, 'show']);
-    Route::get('/profil/{id}/view', [PofilController::class, 'view']);
-    //Route Enroll Video
+    Route::delete('/profil/{id}', [ProfilController::class, 'destroy']);
+    Route::get('/profil/{id}/view', [ProfilController::class, 'show']);
+
     Route::put('/enroll/video/{id}', [UserVideoController::class, 'update']);
     //Route Enroll Dokumen
     Route::put('/enroll/dokumen/{id}', [UserDokumenController::class, 'update']);
 
-    //Route Enroll Mata Kuliah
+    Route::get('/enroll', [EnrollStudiController::class, 'index']);
+
     Route::get('/enroll/mata-kuliah', [EnrollMataKuliahController::class, 'index']);
     Route::get('enroll/video', [EnrollMataKuliahController::class, 'enrolled_video']);
     Route::get('enroll/dokumen', [EnrollMataKuliahController::class, 'enrolled_dokumen']);

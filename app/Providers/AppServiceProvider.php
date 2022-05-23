@@ -1,16 +1,22 @@
 <?php
 
 namespace App\Providers;
+<<<<<<< HEAD
 
 use App\Models\Kelas;
 use App\Models\AksesKelas;
+=======
+>>>>>>> 58e25b4f1f8cf32d6719408bc0d124cbfeff4750
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+<<<<<<< HEAD
 // use App\Models\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
+=======
+>>>>>>> 58e25b4f1f8cf32d6719408bc0d124cbfeff4750
 
 class AppServiceProvider extends ServiceProvider
 {

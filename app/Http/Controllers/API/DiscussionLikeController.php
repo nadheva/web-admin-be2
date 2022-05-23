@@ -32,27 +32,22 @@ class DiscussionLikeController extends Controller
         
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $input
         ],200);
         // return ResponseFormatter::success(null, "Like berhasil ditambahkan!");
     }
 
     public function update(Request $request, $id) 
     {
-        $user = Auth::user();
-        $discussion_id = DiscussionLike::where('id', $id)->get();
-        $reply = DiscussionLike::where('user_id', $id)->first();
-
-        $input = new DiscussionLike();
-        $input->discussion_id = $discussion_id;
-        $input->isLike = $request->isLike;
-        $input->user_id = $user->id;
-
-        $input->update();
+        $DiscussionLike = DiscussionLike::findOrFail($id);
+        $DiscussionLike->isLike = $request->isLike;
+        $DiscussionLike->save();
         
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $DiscussionLike
         ],200);
         // return ResponseFormatter::success(null, "Like berhasil diedit!");
     }

@@ -4,20 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MataKuliah;
-use App\Models\DataDosen;
-use App\Models\Kelas;
 
-class Jadwal_kuliah extends Model
+class UjianKuliah extends Model
 {
     use HasFactory;
-    protected $table = 'jadwal_kuliah';
+    protected $table = 'ujian_kuliah';
     protected $fillable = [
-        'jam_kuliah',
-        'hari',
+        'deadline',
+        'tanggal_ujian',
         'matkul_id',
         'dosen_id',
-        'kelas_id'
+        'kelas_id',
+        'mahasiswa_id'
     ];
 
     public function matkul()
@@ -33,5 +31,10 @@ class Jadwal_kuliah extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'kelas_id');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Administration::class, 'mahasiswa_id');
     }
 }

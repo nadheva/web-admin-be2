@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
-use lcobucci\jwt\Token\RegisteredClaimGiven;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Http\Resources\UserResource;
 use App\Models\Administration;
-use Illuminate\Support\Facades\Hash;
+use Firebase\Auth\Token\Exception\InvalidToken;
 use Illuminate\Support\Facades\URL;
+use InvalidArgumentException;
 
 class PassportAuthController extends Controller
 {
@@ -59,7 +59,7 @@ class PassportAuthController extends Controller
         try { // Try to verify the Firebase credential token with Google
 
             $verifiedIdToken = $auth->verifyIdToken($idTokenString);
-        } catch (\InvalidArgumentException $e) { // If the token has the wrong format
+        } catch (InvalidArgumentException $e) { // If the token has the wrong format
 
             return response()->json([
                 'status'  => false,

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJadwalKuliah extends Migration
+class CreateUjianKuliah extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateJadwalKuliah extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal_kuliah', function (Blueprint $table) {
+        Schema::create('ujian_kuliah', function (Blueprint $table) {
             $table->id();
             $table->foreignId('matkul_id')->constrained('mata_kuliah')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('dosen_id')->constrained('data_dosen')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('kelas_id')->constrained('kelas')->onUpdate('cascade')->onDelete('cascade');
-            $table->time('jam_kuliah');
-            $table->string('hari');
+            $table->foreignId('mahasiswa_id')->constrained('data_mahasiswa')->onUpdate('cascade')->onDelete('cascade');
+            $table->date('tanggal_ujian');
+            $table->date('deadline');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateJadwalKuliah extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadwal_kuliah');
+        Schema::dropIfExists('ujian_kuliah');
     }
 }

@@ -36,7 +36,8 @@ class DiscussionReply2Controller extends Controller
         
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $input
         ],200);
         // return ResponseFormatter::success(null, "Komentar berhasil ditambahkan!");
     }
@@ -49,7 +50,8 @@ class DiscussionReply2Controller extends Controller
 
         return response()->json([
             "error" => false,
-            "message" => "success"
+            "message" => "success",
+            "data" => $DiscussionReply2
         ]);
         // return ResponseFormatter::success(null, "Komentar berhasil diedit!");
     }
