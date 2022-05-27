@@ -329,6 +329,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/nilai-quiz', [UserQuizController::class, 'nilaiQuiz']);
 
     Route::get('nilai-akhir/{matkul}', [NilaiController::class, 'nilaiAkhir']);
+    
+    //riyanti
+    Route::get('get/pertemuan/{mata_kuliah_id}', [MataKuliahController::class, 'userModule']);
 });
 
 
