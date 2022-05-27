@@ -57,24 +57,18 @@ class KontenVideoController extends Controller
         return false;
     }
 
-    public function getYoutubeDuration($vid) {
-        $arrContextOptions=array(
-            "ssl"=>array(
-                "verify_peer"=>false,
-                "verify_peer_name"=>false,
-            ),
-        );  
+    public function getYoutubeDuration($url) {
         $YOUR_KEY = env('GOOGLE_KEY');
-        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$vid."&part=contentDetails,statistics&key=$YOUR_KEY", false, stream_context_create($arrContextOptions));
+        $videoDetails = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=".$url."&part=contentDetails,statistics&key=".$YOUR_KEY);
         $VidDuration = json_decode($videoDetails, true);
-        dd($VidDuration);  
+        // dd($VidDuration, $videoDetails);
         foreach ($VidDuration['items'] as $vidTime)
         {
-          $VidDuration= $vidTime['contentDetails']['duration'];
+        $VidDuration= $vidTime['contentDetails']['duration'];
         }
+        // dd($VidDuration);
         $pattern='/PT(\d+)M(\d+)S/';
         preg_match($pattern,$VidDuration,$matches);
-    //    dd($matches);
         $seconds=$matches[1]*60+$matches[2];
         return $seconds;
     }

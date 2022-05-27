@@ -239,8 +239,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/updateAksesKelasDosen/{id}', [AksesKelasDosenController::class, 'update'])->name('updateAksesKelasDosen');
     Route::delete('/destroyAksesKelasDosen/{id}', [AksesKelasDosenController::class, 'destroy'])->name('destroyAksesKelasDosen');
     Route::resource('kategori', KategoriController::class);
-
-
 });
 
 //Role User
@@ -248,12 +246,6 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::get('/user', function () {
         return view('user');
     })->name('user.dashboard');
-});
-
-Route::get('/tested', function(){
-    return response()->json([
-        'msg'=> "Hello World, by Yuda"
-    ]);
 });
 
 
