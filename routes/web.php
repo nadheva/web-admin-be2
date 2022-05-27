@@ -27,6 +27,7 @@ use App\Http\Controllers\QuizController as ControllersQuizController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamPilganController;
 use App\Http\Controllers\AdministrasiController;
+use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\GuideController;
 // use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\MessageController;
@@ -46,6 +47,7 @@ use App\Models\UserExam;
 */
 
 
+Route::get('testApi', [GeneralController::class, 'testApi']);
 Route::get('cobaRegister', [AuthController::class, 'cobaRegister'])->name('cobaRegister');
 Route::get('chat', [MessageController::class, 'index']);
 Route::group(['prefix' => 'message'], function () {
